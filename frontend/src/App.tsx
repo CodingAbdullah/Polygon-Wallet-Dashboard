@@ -1,15 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './Components/Navbar/navbar';
-import Sidebar from './Components/Sidebar/sidebar';
+import AboutPage from './Components/AboutPage/AboutPage';
+import Navbar from './Components/Navbar/Navbar';
+import MetricsNavbar from './Components/MetricsNavbar/MetricsNavbar';
 import Footer from './Components/Footer/footer';
 
 const App = () => {
   return (
     <div className="App">
       <Navbar />
-      <Sidebar />
+      <MetricsNavbar />
       <Router>
         <Routes>
+          <Route path="/about" element={<AboutPage />}></Route>
         </Routes>
       </Router>
       <Footer />
