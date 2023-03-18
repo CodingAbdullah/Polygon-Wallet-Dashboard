@@ -34,7 +34,7 @@ const Navbar: FC = () => {
                                 <a style={ styles.navLinkColor } className="nav-link" href="/">Dashboard</a>
                             </li>
                             <li className="nav-item">
-                                <a style={ styles.navLinkColor } className="nav-link" href="/ens-erc721-selection">ENS/ERC721 Lookups</a>
+                                <a style={ styles.navLinkColor } className="nav-link" href="/erc721-selection">ERC721 Lookups</a>
                             </li>
                             <li className="nav-item">
                                 <a style={ styles.navLinkColor } className="nav-link" href="/erc20-holdings">ERC20 Token Holdings</a>
