@@ -1,5 +1,6 @@
 require("dotenv").config({ path: '.env' });
-const GasPriceRoute = require('./routes/GasPriceRoute');
+const MaticGasPriceRoute = require('./routes/MaticGasPriceRoute');
+const MaticPriceRoute = require('./routes/MaticPriceRoute');
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -13,4 +14,5 @@ app.use(cors()); // Cors-enabled server
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", GasPriceRoute);
+app.use("/", MaticGasPriceRoute);
+app.use("/", MaticPriceRoute);
