@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 const AnalyticsSelectionPage: FC = () => {
     const navigate = useNavigate();
 
+    // Adding a section for selecting information
     return (
         <div style={{ textAlign: 'center' }}>
             <main role="main" className="p-3">
@@ -15,7 +16,7 @@ const AnalyticsSelectionPage: FC = () => {
                         <div>
                             <label>Token Analytics</label><button onClick={ () => navigate("/collections") } style={{ marginLeft: '1rem' }} className='btn btn-success'>View</button>
                             <hr style={{ marginTop: '2rem', marginBottom: '2rem'} } />
-                            <label>Wallet Analytics</label><button style={{ marginLeft: '1rem' }} onClick={ () => navigate("/wallet-analytics") } className='btn btn-success'>View</button>
+                            <label>Wallet Analytics</label><button style={{ marginLeft: '1rem' }} onClick={ () => navigate("/wallet-information-page") } className='btn btn-success'>View</button>
                         </div>
                     </div>
                 </div>

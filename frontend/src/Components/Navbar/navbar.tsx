@@ -31,10 +31,10 @@ const Navbar: FC = () => {
                                 <a style={ styles.navLinkColor } className="nav-link" aria-current="page" href="/about">About</a>
                             </li>
                             <li className="nav-item">
-                                <a style={ styles.navLinkColor } className="nav-link" href="/">Dashboard</a>
+                                <a style={ styles.navLinkColor } className="nav-link" href="/">Home</a>
                             </li>
                             <li className="nav-item">
-                                <a style={ styles.navLinkColor } className="nav-link" href="/erc721-selection">ERC721 Lookups</a>
+                                <a style={ styles.navLinkColor } className="nav-link" href="/erc721-lookup-page">ERC721 Lookups</a>
                             </li>
                             <li className="nav-item">
                                 <a style={ styles.navLinkColor } className="nav-link" href="/erc20-holdings">ERC20 Token Holdings</a>
