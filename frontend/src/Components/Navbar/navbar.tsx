@@ -49,6 +49,9 @@ const Navbar: FC = () => {
                                 <a style={ styles.navLinkColor } className="nav-link" href="/gas-tracker">Gas Station</a>
                             </li>
                             <li className="nav-item">
+                                <a style={ styles.navLinkColor } className="nav-link" href="/matic-price-lookup">Matic Price Lookup</a>
+                            </li>
+                            <li className="nav-item">
                                 <a style={ styles.navLinkColor } className="nav-link" href="/analytics-selection">Wallet/Token Analytics</a>
                             </li>
                         </ul>
