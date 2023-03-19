@@ -4,6 +4,8 @@ import GasPricePage from './Components/GasPricePage/GasPricePage';
 import MetricsNavbar from './Components/MetricsNavbar/MetricsNavbar';
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/footer';
+import AnalyticsSelectionPage from './Components/AnalyticsSelectionPage/AnalyticsSelectionPage';
+import CollectionsSelectionPage from './Components/CollectionsSelectionPage/CollectionsSelectionPage';
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/about" element={<AboutPage />}></Route>
+          <Route path="/analytics-selection" element={<AnalyticsSelectionPage />}></Route>
+          <Route path="/collections" element={<CollectionsSelectionPage />}></Route>
           <Route path="/gas-tracker" element={<GasPricePage />}></Route>
         </Routes>
       </Router>
