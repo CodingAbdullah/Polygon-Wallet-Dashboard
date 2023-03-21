@@ -22,7 +22,7 @@ const Alert = (props : { type: string }) => {
     }
 
     return (
-        <div className="alert" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <div className="alert" style={{ paddingTop: '2rem', paddingBottom: '2rem', textAlign: 'center' }}>
             <div style={{ marginBottom: '-1rem' }} className={`alert alert-${alertType}`} role="alert">
                 { message }
             </div>
