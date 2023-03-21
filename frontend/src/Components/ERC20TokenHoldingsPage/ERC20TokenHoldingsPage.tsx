@@ -1,105 +1,137 @@
-import React, { FC, FormEvent, useState }from 'react';
+import { FC, FormEvent, useRef, useState, ChangeEventHandler } from 'react';
 import Alert from '../Alert/Alert';
-import NetworkSelector from '../NetworkSelector/NetworkSelector';
 import { useNavigate } from 'react-router';
+import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
 import axios from 'axios';
+import { ERC20TransferType } from '../../utils/types/ERC20TransferType';
+import ERC20TokenHoldingsInfoTable from '../ERC20TokenHoldingsInfoTable/ERC20TokenHoldingsInfoTable';
+import ERC20TokenTransfersInfoTable from '../ERC20TokenTransfersInfoTable/ERC20TokenTransfersInfoTable';
+import NetworkSelector from '../NetworkSelector/NetworkSelector';
 
 const ERC20TokenHoldingsPage: FC = () => {
-
-    const [walletAddress, updateWalletAddress] = useState("");
-    const [setAlert, updateAlert] = useState(false);
-
-    const [isEmpty, updateEmptyAlert] = useState(false);
-    const [ERC20Holdings, updateERC20Holdings] = useState({
-        information: null
-    });
-
-    const [ERC20Transfers, updateERC20Transfers] = useState({
-        information: null
-    });
-
+    // Set up hooks and state
     const navigate = useNavigate();
+    const address = useRef<HTMLInputElement>(null);
+    const [networkID, updateNetworkID] = useState<string>('polygon');
+    const [alert, updateAlert] = useState<boolean>(false);
+    const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
+    const [tokenHoldings, updateTokenHoldings] = useState<ERC20HoldingType>(); // An array of these types must be stored in this state
+    const [tokenTransfers, updateTokenTransfers] = useState<ERC20TransferType>(); 
 
-    const NODE_SERVER_URL = "http://localhost:5000";
-    const ERC20TOKEN_ENDPOINT = '/address-erc20-holdings';
-
-    const ERC20TOKENTRANSFERS_ENDPOINT = '/address-erc20-transfers';
-
-    const [networkID, updateNetworkID] = useState('eth'); // Network selector set to default value
-
-    const updateNetworkHandler = (e: FormEvent<HTMLFormElement>) => {
-      //  updateNetworkID(e.target.value);
+    // Adding Handlers
+    const clearHandler = () => {
+        updateAlert(false);
+        updateEmptyAlert(false);
+        updateTokenHoldings(undefined);
+        updateTokenTransfers(undefined);
     }
 
-    const clearHandler = () => {
-        updateERC20Holdings((prevState) => { // Removing information, when invalid address is added
-            return {
-                ...prevState,
-                information: null
-            }
-        });
-        updateERC20Transfers((prevState) => {
-            return {
-                ...prevState,
-                information: null
-            }
-        });
+    const networkHandler = (e: ChangeEventHandler<HTMLInputElement>) : void => {
+        // When a selector is selected, update Button
+        updateNetworkID(e.toString());
     }
 
     const walletHandler = (e: FormEvent<HTMLFormElement>) => {
-        
-    } 
+        e.preventDefault();
 
-    if (isEmpty || setAlert) {
-        return (
-            <div className="erc-721-token-page">
-                <main role="main">
-                    <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h2>ERC20 Token Holdings</h2>
-                    </div>
-                    { setAlert ? <Alert type="danger" /> : null }
-                    { isEmpty ? <Alert type="warning" /> : null }
-                    <div className="jumbotron">
-                        <div className="container">
-                            <form onSubmit={ walletHandler }>
-                                <label style={{ marginRight: '0.5rem' }}>Enter Wallet Address (ERC20 token balances/transfers in this wallet will be displayed (100 Recent):</label>
-                                <input type="text" onChange={ e => updateWalletAddress(e.target.value) } placeholder="Enter here" required />
-                                <br />
-                                <NetworkSelector />
-                                <button style={{ marginTop: '2rem' }} type="submit" className="btn btn-success">Check Balances</button>
-                            </form>
-                            <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>
-                            <button style={{ marginTop: '2rem', marginLeft: '2rem' }} className='btn btn-warning' onClick={ () => { updateAlert(false); updateEmptyAlert(false); updateERC20Holdings((prevState) => { return { ...prevState, information: null }}); updateERC20Transfers((prevState) => { return { ...prevState, information: null }} )}}>Clear</button>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        )
+        // Set configuration for request
+        let options = {
+            method: 'POST',
+            body: JSON.stringify({ address: address.current?.value, network: networkID }),
+            headers: {
+                'content-type': 'application/json'
+            }
+        }
+
+        if (address.current?.value.length !== 42 && address.current?.value.substring(0, 2) !== '0x') {
+            updateEmptyAlert(false);
+            updateAlert(true);
+        }
+        else {
+            // Clear danger alert if the address fits the valid criteria
+            updateAlert(false);
+
+            // Make requests for ERC20 holdings and transfers
+            axios.post('http://localhost:5001/matic-erc20-holdings', options)
+            .then(response => {
+                if (response.data.holdings.length === 0) {
+                    updateEmptyAlert(true);
+                }
+                else {
+                    updateEmptyAlert(false);
+                    updateAlert(false);
+                    updateTokenHoldings(response.data);
+
+                    axios.post('http://localhost:5001/matic-erc20-transfers', options)
+                    .then(response => {
+                        if (response.data.transfers.result.length === 0) {
+                            updateEmptyAlert(true);
+                        }
+                        else {
+                            updateEmptyAlert(false);
+                            updateAlert(false);
+                            updateTokenTransfers(response.data);
+                        }
+                    })
+                    .catch(() => {
+                        updateAlert(true);
+                        updateEmptyAlert(false);
+                    });
+                }
+            })
+            .catch(() => {
+                updateAlert(true);
+                updateEmptyAlert(false);
+            });
+        }
     }
-    else {
-        return (
-                <div className="erc-721-token-page" style={{ textAlign: 'center' }}>
-                    <main role="main" className="p-3">
-                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h2>ERC20 Token Holdings</h2>
-                        </div>
-                        <div className="jumbotron">
-                            <div className="container bg-light p-3">
-                                <form onSubmit={ walletHandler }>
-                                    <label style={{ marginRight: '0.5rem' }}>Enter <b>Wallet Address</b> for <b>ERC20</b> Token Holdings [ERC20 token balances/transfers in this wallet will be displayed (100 Recent)]: </label>
-                                    <input type="text" onChange={ e => updateWalletAddress(e.target.value) } placeholder="Enter here" required />
-                                    <br />
-                                    <NetworkSelector  />
-                                    <button style={{ marginTop: '2rem' }} type="submit" className="btn btn-success">Check Balances</button>
-                                </form>
-                                <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>
-                                <button style={{ marginTop: '2rem', marginLeft: '2rem' }} className='btn btn-warning' onClick={ () => { updateAlert(false); updateEmptyAlert(false); updateERC20Holdings((prevState) => { return { ...prevState, information: null }} ); updateERC20Transfers((prevState) => { return { ...prevState, information: null }} )}}>Clear</button>
-                            </div>
-                        </div> 
-                    </main>
+
+    return (
+        <div className="erc-20-token-page" style={{ textAlign: 'center' }}>
+            <main role="main" className="p-3">
+                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h2>ERC-20 Token Holdings</h2>
                 </div>
-        )
-    }
+                { alert ? <Alert type="danger" /> : null }
+                { emptyAlert ? <Alert type="warning" /> : null }
+                <div className="jumbotron bg-light p-3">
+                    <div className="container">
+                        <form onSubmit={ walletHandler }>
+                            <label style={{ marginRight: '0.5rem' }}>Enter <b>Wallet Address</b> for ERC20 Token Holdings and Transfers: </label>
+                            <input style={{ marginTop: '2rem' }} ref={ address } type="text" placeholder="Enter Wallet Address" required />
+                            <br />
+                            <NetworkSelector networkSelector={ networkHandler } />
+                            <button style={{ marginTop: '1rem' }} type="submit" className="btn btn-success">View Holdings</button>
+                        </form>
+                        <button style={{ marginTop: '2rem', display: 'inline', marginBottom: '1rem' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>
+                        <button style={{ marginTop: '2rem', marginLeft: '2rem', marginBottom: '1rem' }} className='btn btn-warning' onClick={ clearHandler }>Clear</button>
+                    </div>
+                </div>
+            </main>
+            {
+                tokenHoldings === undefined || emptyAlert || alert ? null :
+                    <>
+                        <main style={{ marginTop: '5rem' }} className="p-3" role="main">
+                            <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 className="h3">ERC-20 Holdings</h3>
+                            </div>
+                        </main>
+                        <ERC20TokenHoldingsInfoTable data={ tokenHoldings } /> 
+                    </>
+            }
+            {
+                tokenTransfers === undefined || emptyAlert || alert ? null :
+                    <>
+                        <main style={{ marginTop: '5rem' }} className="p-3" role="main">
+                            <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 className="h3">ERC-20 Transfers</h3>
+                            </div>
+                        </main>
+                        <ERC20TokenTransfersInfoTable address={ address.current!.value } data={ tokenTransfers } /> 
+                    </>
+            }
+        </div>  
+    )
 }
 
 export default ERC20TokenHoldingsPage;

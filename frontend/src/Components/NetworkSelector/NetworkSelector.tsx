@@ -1,16 +1,17 @@
-import { FC } from 'react';
 import './NetworkSelector.css';
 
-const NetworkSelector: FC = () => {
+const NetworkSelector = (props: { maticNetwork: Function }) => {
+    const { maticNetwork } = props;
+
     // Add options for Mainnet and Polygon's own testnet
     let optionsValue = null;
 
     optionsValue = (
-        <div className="form-check">
+        <div className="form-check" style={{ textAlign: 'center' }}>
             <label id='network-label' className="form-check-label">Polygon Mainnet</label>
-            <input className="form-check-input" name='network-type' type="radio" value="polygon-mainnet" />
+            <input className="form-check-input" onChange={maticNetwork} name='network-type' type="radio" value="polygon" />
             <label id="network-label" className="form-check-label">Polygon Mumbai Testnet</label>
-            <input className="form-check-input" name='network-type' type="radio" value="polygon-mumbai" />
+            <input className="form-check-input" name='network-type' type="radio" value="mumbai" />
         </div>
     )
     
