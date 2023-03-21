@@ -50,7 +50,7 @@ const ERC20TokenPricesPage: FC = () => {
                     <div className="jumbotron bg-light p-3" style={{ textAlign: 'center' }}>
                         <div className="container">
                             <form onSubmit={ formHandler } style={{ marginTop: '1.5rem' }}>
-                                <label style={{ marginRight: '0.5rem' }}>ERC20 Contract Address (Defaults to ETH): </label>
+                                <label style={{ marginRight: '0.5rem' }}>Enter <b>ERC20</b> Contract Address for Token Information (Defaults to ETH): </label>
                                 <input type="text" ref={ tokenContractAddress } placeholder="Enter here" required />
                                 <br />
                                 <button style={{ marginTop: '2rem' }} type="submit" className="btn btn-success">Check Data</button>

@@ -17,13 +17,17 @@ const ERC20PricesInfoTable = (props: { data: ERC20PriceType }) => {
                 <td style={{ border: '1px solid black' }}><b>Name</b></td>
                 <td style={{ border: '1px solid black' }}>{ data.name }</td>
               </tr>
+              <tr style={{ border: '1px solid black' }}>
+                <td style={{ border: '1px solid black' }}><b>Current Price</b></td>
+                <td style={{ border: '1px solid black' }}>{ data.market_data.current_price.usd }</td>
+              </tr>
               <tr style={{border: '1px solid black'}}>
                 <td style={{border: '1px solid black'}}><b>Contract Address</b></td>
                 <td style={{border: '1px solid black'}}>{ data.contract_address }</td>
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>Last Updated</b></td>
-                <td style={{ border: '1px solid black' }}>{ data.market_data.last_updated.split('T')[0] }</td>
+                <td style={{ border: '1px solid black' }}><b>Date: </b>{ data.market_data.last_updated.split("T")[0] } <b> - Time: </b> { data.market_data.last_updated.split("T")[1].split("Z")[0].split(".")[0] }</td>
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>Total Supply</b></td>

@@ -34,9 +34,6 @@ const Navbar: FC = () => {
                                 <a style={ styles.navLinkColor } className="nav-link" href="/">Home</a>
                             </li>
                             <li className="nav-item">
-                                <a style={ styles.navLinkColor } className="nav-link" href="/erc721-lookup-page">ERC721 Lookups</a>
-                            </li>
-                            <li className="nav-item">
                                 <a style={ styles.navLinkColor } className="nav-link" href="/erc20-holdings">ERC20 Token Holdings</a>
                             </li>
                             <li className="nav-item">
@@ -44,6 +41,9 @@ const Navbar: FC = () => {
                             </li>
                             <li className="nav-item">
                                 <a style={ styles.navLinkColor } className="nav-link" href="/erc721-holdings">ERC721 Token Holdings</a>
+                            </li>
+                            <li className="nav-item">
+                                <a style={ styles.navLinkColor } className="nav-link" href="/erc721-lookup-page">ERC721 Token Lookups</a>
                             </li>
                             <li className="nav-item">
                                 <a style={ styles.navLinkColor } className="nav-link" href="/gas-tracker">Gas Station</a>
