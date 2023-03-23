@@ -9,6 +9,7 @@ const ERC721TokenHoldingsPage: FC = () => {
     // Set up state and hooks
     const [alert, updateAlert] = useState<boolean>(false);
     const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
+    const [networkID, updateNetworkID] = useState<string>('polygon');
 
     // const [erc721HoldingData, updateERC721HoldingData] = useState<ERC721HoldingType>();
     // const [erc721TransferData, updateERC721TransferData] = useState<ERC721TransferType>();
@@ -26,7 +27,16 @@ const ERC721TokenHoldingsPage: FC = () => {
     }
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
-    
+        e.preventDefault();
+
+        // Set configuration for request
+        let options = {
+            method: 'POST',
+            body: JSON.stringify({ address: address.current?.value, network: networkID }),
+            headers: {
+                'content-type': 'application/json'
+            }
+        }
     }
     
     return (
@@ -43,7 +53,7 @@ const ERC721TokenHoldingsPage: FC = () => {
                             <label>Enter <b>Wallet Address</b> for list of <b>ERC721</b> Holdings and Transfers:</label>
                             <input style={{ marginLeft: '0.5rem' }} ref={address} type='text' placeholder='Enter Wallet Address' />
                             <br />
-                            <NetworkSelector  />
+                            <NetworkSelector networkSelector={ networkHandler } />
                             <button style={{ marginTop: '1rem' }} type='submit' className='btn btn-success'>View Holdings</button>
                         </form>
                         <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>
