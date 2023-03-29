@@ -7,7 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### `AWS Amplify`
 
-**The link to the deployed site is here.** Note that the backend endpoints will be served using the **same** EC2 instance used to serve the backend endpoints for the main **Dashboard** project.
+**The link to the deployed site will be posted here.** Note that the backend endpoints will be served using the **same** EC2 instance used to serve the backend endpoints for the main **Dashboard** project.
 
 This was done for cost-effectiveness and efficiency. One server holding all the endpoints.
 
