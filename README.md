@@ -9,7 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 **The link to the deployed site is here.** Note that the backend endpoints will be served using the **same** EC2 instance used to serve the backend endpoints for the main **Dashboard** project.
 
-This was done for cost-effectiveness and efficiency. One server holding all the endpoints.
+This was done for cost-effectiveness and efficiency. One server holding all the endpoints. **This is also the final dashboard for this project, more features to the main and L2s could be added in the future.**
 
 <br />
 
