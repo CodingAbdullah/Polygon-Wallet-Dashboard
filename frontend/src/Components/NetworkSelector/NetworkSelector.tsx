@@ -5,13 +5,20 @@ const NetworkSelector = (props: { maticNetwork: Function }) => {
 
     // Add options for Mainnet and Polygon's own testnet
     let optionsValue = null;
-
     optionsValue = (
-        <div className="form-check" style={{ textAlign: 'center' }}>
-            <label id='network-label' className="form-check-label">Polygon Mainnet</label>
-            <input className="form-check-input" onChange={maticNetwork} name='network-type' type="radio" value="polygon" />
-            <label id="network-label" className="form-check-label">Polygon Mumbai Testnet</label>
-            <input className="form-check-input" name='network-type' type="radio" value="mumbai" />
+        <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "50%" }}>
+            <div className="form-check">
+                <input className="form-check-input" type="radio" name="exampleRadios" value="option2" />
+                <label className="form-check-label">
+                    Polygon
+                </label>
+            </div>
+            <div className="form-check">
+                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" />
+                <label className="form-check-label">
+                    Polygon Mumbai
+                </label>
+            </div>
         </div>
     )
     
