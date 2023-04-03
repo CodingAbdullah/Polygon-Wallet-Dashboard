@@ -27,6 +27,10 @@ No API keys means failed requests to select API resources.
 
 <br />
 
+***Polygon network selection will be removed from sections that have them listed in the main dashboard once this dashboard is complete.***
+
+<br />
+
 ## `Dockerfile`
 Attached to the root directory of this project, is a `Dockerfile`. Essentially, allowing users to containerize the frontend application and generate an image to run the application in isolated containers using this particular file.
 
