@@ -1,7 +1,6 @@
 import { FC, FormEvent, useRef, useState } from 'react';
 import { useNavigate } from "react-router";
 import Alert from '../Alert/Alert';
-import NetworkSelector from '../NetworkSelector/NetworkSelector';
 import axios from 'axios';
 
 
@@ -53,7 +52,23 @@ const ERC721TokenHoldingsPage: FC = () => {
                             <label>Enter <b>Wallet Address</b> for list of <b>ERC721</b> Holdings and Transfers:</label>
                             <input style={{ marginLeft: '0.5rem' }} ref={address} type='text' placeholder='Enter Wallet Address' />
                             <br />
-                            <NetworkSelector networkSelector={ networkHandler } />
+                            <label style={{ marginTop: '3rem' }}>
+                                <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
+                            </label>
+                            <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                    <label className="form-check-label">
+                                        Polygon
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="polygon-mumbai" value="polygon-mumbai" />
+                                    <label className="form-check-label">
+                                        Polygon Mumbai
+                                    </label>
+                                </div>
+                            </div>                             
                             <button style={{ marginTop: '1rem' }} type='submit' className='btn btn-success'>View Holdings</button>
                         </form>
                         <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>

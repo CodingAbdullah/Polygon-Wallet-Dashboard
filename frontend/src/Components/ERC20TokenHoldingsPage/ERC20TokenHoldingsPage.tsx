@@ -6,7 +6,6 @@ import axios from 'axios';
 import { ERC20TransferType } from '../../utils/types/ERC20TransferType';
 import ERC20TokenHoldingsInfoTable from '../ERC20TokenHoldingsInfoTable/ERC20TokenHoldingsInfoTable';
 import ERC20TokenTransfersInfoTable from '../ERC20TokenTransfersInfoTable/ERC20TokenTransfersInfoTable';
-import NetworkSelector from '../NetworkSelector/NetworkSelector';
 
 const ERC20TokenHoldingsPage: FC = () => {
     // Set up hooks and state
@@ -100,7 +99,23 @@ const ERC20TokenHoldingsPage: FC = () => {
                             <label style={{ marginRight: '0.5rem' }}>Enter <b>Wallet Address</b> for ERC20 Token Holdings and Transfers: </label>
                             <input style={{ marginTop: '2rem' }} ref={ address } type="text" placeholder="Enter Wallet Address" required />
                             <br />
-                            <NetworkSelector networkSelector={ networkHandler } />
+                            <label style={{ marginTop: '3rem' }}>
+                                <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
+                            </label>
+                            <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                    <label className="form-check-label">
+                                        Polygon
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="polygon-mumbai" value="polygon-mumbai" />
+                                    <label className="form-check-label">
+                                        Polygon Mumbai
+                                    </label>
+                                </div>
+                            </div>                            
                             <button style={{ marginTop: '1rem' }} type="submit" className="btn btn-success">View Holdings</button>
                         </form>
                         <button style={{ marginTop: '2rem', display: 'inline', marginBottom: '1rem' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>

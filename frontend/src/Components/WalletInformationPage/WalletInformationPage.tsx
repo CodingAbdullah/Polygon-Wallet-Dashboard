@@ -2,7 +2,6 @@ import React, { FC, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Alert from '../Alert/Alert';
-import NetworkSelector from '../NetworkSelector/NetworkSelector';
 
 const WalletInformationPage: FC = () => {
     const [setAlert, updateAlert] = useState(false);
@@ -111,7 +110,23 @@ const WalletInformationPage: FC = () => {
                             <form onSubmit={ formHandler }>
                                 <input onChange={ e => updateWalletAddress(e.target.value) } type='text' placeholder='Enter Address Here'></input>
                                 <br />
-                                <NetworkSelector  />
+                                <label style={{ marginTop: '3rem' }}>
+                                    <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
+                                </label>
+                                <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                        <label className="form-check-label">
+                                            Polygon
+                                        </label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="polygon-mumbai" value="polygon-mumbai" />
+                                        <label className="form-check-label">
+                                            Polygon Mumbai
+                                        </label>
+                                    </div>
+                                </div>                                 
                                 <button style={{ marginTop: '2rem' }} type='submit' className='btn btn-success'>Submit</button>
                             </form>
                             <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>

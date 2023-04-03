@@ -1,7 +1,6 @@
 import React, { FormEvent, FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Alert from '../Alert/Alert';
-import NetworkSelector from '../NetworkSelector/NetworkSelector';
 import axios from 'axios';
 
 const ERC721TokenLookupsPage: FC = () => {
@@ -56,7 +55,23 @@ const ERC721TokenLookupsPage: FC = () => {
                         <br />
                         <input style={{ marginTop: '1rem' }} type="number" onChange={ e => updateTokenId(e.target.value) } placeholder="Enter Token ID" required />
                         <br />
-                        <NetworkSelector />
+                        <label style={{ marginTop: '3rem' }}>
+                            <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
+                        </label>
+                        <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                <label className="form-check-label">
+                                    Polygon
+                                </label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" name="polygon-mumbai" value="polygon-mumbai" />
+                                <label className="form-check-label">
+                                    Polygon Mumbai
+                                </label>
+                            </div>
+                        </div>                         
                         <button style={{ marginTop: '2rem' }} type="submit" className="btn btn-success">Lookup</button>
                     </form>
                     <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>
