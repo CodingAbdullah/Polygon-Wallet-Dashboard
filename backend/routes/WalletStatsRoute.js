@@ -1,1 +1,11 @@
-// Backend routes for handling Wallet information on the Matic Network, code goes here..
+const express = require("express");
+const router = express.Router();
+const MaticWalletStatsController = require('../controllers/WalletStatsController');
+
+// Waalet Information Routes
+router.post("/get-matic-wallet-information", MaticWalletStatsController.MaticAddressDetails);
+router.post("/get-matic-wallet-transactions", MaticWalletStatsController.MaticAddressTransactions);
+router.post("/get-matic-wallet-erc20-holdings", MaticWalletStatsController.MaticERC20Holdings);
+router.post("/get-matic-wallet-erc721-holdings", MaticWalletStatsController.MaticERC721Holdings);
+
+module.exports = router;
