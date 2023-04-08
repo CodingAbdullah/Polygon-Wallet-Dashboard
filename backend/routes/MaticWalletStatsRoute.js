@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const MaticWalletStatsController = require('../controllers/WalletStatsController');
+const MaticWalletStatsController = require('../controllers/MaticWalletStatsController');
 
 // Waalet Information Routes
 router.post("/get-matic-wallet-information", MaticWalletStatsController.MaticAddressDetails);
