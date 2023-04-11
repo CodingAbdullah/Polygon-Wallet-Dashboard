@@ -40,9 +40,12 @@ Attached to the root directory of this project, is a `Dockerfile`. Essentially, 
 
 Here are links to the available API resources used in this project. NOTE: Opensea API resources are NOT available at this time as they are not issuing API keys. Hence, an alternate platform, Alchemy will be used instead.
 
+[Alchemy](https://docs.alchemy.com/reference/)
+[Polygonscan](https://polygonscan.com/apis)
+[Moralis](https://docs.moralis.io/)
+[CoinGecko](https://www.coingecko.com/en/api/documentation)
+
 <br />
-
-
 
 ## Front End Resources
 
