@@ -29,6 +29,8 @@ No API keys means failed requests to select API resources.
 
 ***Polygon network selection will be removed from sections that have them listed in the main dashboard once this dashboard is complete.***
 
+***This is also the last L2 Dashboard to be completed to compliment the main one.***
+
 <br />
 
 ## `Dockerfile`
