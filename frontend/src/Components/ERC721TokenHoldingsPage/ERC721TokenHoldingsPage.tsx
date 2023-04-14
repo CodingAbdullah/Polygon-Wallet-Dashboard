@@ -10,12 +10,23 @@ const ERC721TokenHoldingsPage: FC = () => {
     const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
     const [networkID, updateNetworkID] = useState<string>('polygon');
 
+    const [nftData, updateNFTData] = useState({
+        information: null
+    });
+
+    const [ERC721Transfers, updateERC721Transfers] = useState({
+        information: null
+    });
+
+    const NODE_SERVER_URL = "http://localhost:5000"; // Modifying end points for the backend server
+    const NFT_ENDPOINT = '/address-erc721-holdings';
+    const NFT_TRANSFERS_ENDPOINT = '/address-erc721-transfers';
+
     // const [erc721HoldingData, updateERC721HoldingData] = useState<ERC721HoldingType>();
     // const [erc721TransferData, updateERC721TransferData] = useState<ERC721TransferType>();
 
     const address = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
-
     
     // Clear and Form handlers
     const clearHandler = () => {
@@ -35,6 +46,86 @@ const ERC721TokenHoldingsPage: FC = () => {
             headers: {
                 'content-type': 'application/json'
             }
+        }
+
+        if (address.current!.value.length === 42 && address.current!.value.substring(0, 2) === '0x'){
+            if (networkID === 'kovan' || networkID === 'rinkeby' || networkID === 'ropsten') {
+                // Set alerts for networks not available
+                updateEmptyAlert(true);
+            }
+            else {
+                axios.post(NODE_SERVER_URL + NFT_ENDPOINT, options) // NFT endpoint for retrieving information related to holdings
+                .then(response => {
+                    if (response.status !== 200){
+                        updateAlert(true);
+                        updateEmptyAlert(false);
+                        updateNFTData((prevState) => {
+                            return {
+                                ...prevState,
+                                information: null
+                            }
+                        });
+                    }
+                    else {
+                        if (response.status === 200 && response.data.information.total === 0){ // If empty, display warning
+                            updateEmptyAlert(true);
+                            updateAlert(false);
+                            updateNFTData((prevState) => {
+                                return {
+                                    ...prevState,
+                                    information: null
+                                }
+                            });
+                        }
+                        else {
+                            updateAlert(false); // Remove alerts if any exist
+                            updateEmptyAlert(false);
+
+                            updateNFTData((prevState) => {
+                                return {
+                                    ...prevState,
+                                    information: response.data.information
+                                }
+                            });
+                        }
+                    }
+                })
+
+                axios.post(NODE_SERVER_URL + NFT_TRANSFERS_ENDPOINT, options)
+                .then(response => {
+                    if (response.status !== 200){
+                        updateERC721Transfers((prevState) => {
+                            return {
+                                ...prevState,
+                                information: null
+                            }
+                        });
+                    }
+                    else {
+                        if (response.status === 200 && response.data.information.result.length === 0){ // If empty, keep state to null
+                            updateERC721Transfers((prevState) => {
+                                return {
+                                    ...prevState,
+                                    information: null
+                                }
+                            });
+                        }
+                        else {
+                            updateERC721Transfers((prevState) => {
+                                return {
+                                    ...prevState,
+                                    information: response.data.information.result // If data exists, add it to state
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            updateAlert(true); // Set Alert
+            updateEmptyAlert(false); // Remove redundant alerts, and empty data
+            clearHandler();
         }
     }
     
