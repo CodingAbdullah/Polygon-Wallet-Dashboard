@@ -1,4 +1,6 @@
 import { FC, FormEvent, useRef, useState } from 'react';
+import ERC721HoldingsInfoTable from '../ERC721HoldingsInfoTable/ERC721HoldingsInfoTable';
+import ERC721TransfersInfoTable from '../ERC721TransfersInfoTable/ERC721TransfersInfoTable';
 import { useNavigate } from "react-router";
 import Alert from '../Alert/Alert';
 import axios from 'axios';
@@ -167,6 +169,41 @@ const ERC721TokenHoldingsPage: FC = () => {
                     </div>
                 </div>
             </main>
+            { 
+                emptyAlert ? null : 
+                    <>
+                        <main style={{marginTop: '-3rem'}} className="p-3" role="main">
+                                <div>
+                                    {
+                                        nftData.information === null ? null :
+                                            <>
+                                                <main style={{marginTop: '5rem'}} role="main">
+                                                    <div style={{marginTop: '1rem'}} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                                        <h3 className="h3">ERC-721 Token Holdings</h3>
+                                                    </div>
+                                                </main>
+                                                <ERC721HoldingsInfoTable data={ nftData.information } />
+                                            </>
+                                    }
+                                </div>
+                        </main>
+                        <main style={{marginTop: '2rem'}} className="p-3" role="main">
+                            <div>
+                                {
+                                    ERC721Transfers.information === null ? null :
+                                        <>
+                                            <main style={{marginTop: '5rem'}} role="main">
+                                                <div style={{marginTop: '1rem'}} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                                    <h3 className="h3">Sample ERC-721 Transfers</h3>
+                                                </div>
+                                            </main>
+                                            <ERC721TransfersInfoTable address={ address.current!.value } data={ ERC721Transfers.information } />
+                                        </>
+                                }
+                            </div>
+                        </main>
+                    </>
+            }
         </div>
     )
 }
