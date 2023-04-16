@@ -1,6 +1,5 @@
-import { FC } from 'react';
 
-const ERC721HoldingsInfoTable: FC = () => {
+const ERC721HoldingsInfoTable = (props : { address: string, data: object } ) => {
 
     return (
         <div className="erc721-holdings-info-table">
