@@ -4,11 +4,9 @@ export interface ERC20CollectionInformationType {
         value: string,
         name: string,
         symbol: string,
-        thumbnail: string,
         decimals: number,
-        balance: string
     },
-    usdPrice: string,
+    usdPrice: number,
     exchangeAddress: string,
     exchangeName: string
 }

@@ -16,7 +16,7 @@ exports.getERC20CollectionInformation = (req, res) => {
         } 
     }
 
-    axios.get(MORALIS_URL + erc20Endpoint + address + '/price?chain=polygon&exchange=uniswap-v2', options) // Pass in address and chain values
+    axios.get(MORALIS_URL + erc20Endpoint + address + '/price?chain=polygon', options) // Pass in address and chain values
     .then(response => {
         res.status(200).json({
             information: response.data
