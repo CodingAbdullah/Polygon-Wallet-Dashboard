@@ -1,9 +1,9 @@
 import { FC, useState, useRef, FormEvent } from 'react';
-import ERC720PricesInfoTable from '../ERC20TokenPricesInfoTable/ERC20TokenPricesInfoTable';
-import { useNavigate } from 'react-router-dom';
 import Alert from '../Alert/Alert';
-import { ERC20PriceType } from '../../utils/types/ERC20PriceType';
 import axios from 'axios';
+import ERC720PricesInfoTable from '../ERC20TokenPricesInfoTable/ERC20TokenPricesInfoTable';
+import { ERC20PriceType } from '../../utils/types/ERC20PriceType';
+import { useNavigate } from 'react-router-dom';
 
 const ERC20TokenPricesPage: FC = () => {
     const navigate = useNavigate();

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import Alert from '../Alert/Alert';
 import axios from 'axios';
 
-
 const ERC721TokenHoldingsPage: FC = () => {
     // Set up state and hooks
     const [alert, updateAlert] = useState<boolean>(false);
