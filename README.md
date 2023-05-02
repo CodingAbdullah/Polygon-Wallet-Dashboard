@@ -3,6 +3,7 @@ A descriptive web app, detailing the history of all transactions including all d
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This is a <b>minified</b> version of the original [Dashboard](https://ethwdashboard.xyz) and will be linked to it.
 
+Front end and backend code is available in the main repo. 
 <br />
 
 ### `AWS Amplify`
