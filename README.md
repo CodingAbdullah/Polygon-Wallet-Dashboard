@@ -3,7 +3,6 @@ A descriptive web app, detailing the history of all transactions including all d
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This is a <b>minified</b> version of the original [Dashboard](https://ethwdashboard.xyz) and will be linked to it.
 
-Front end and backend code is available in the main repo. 
 <br />
 
 ### `AWS Amplify`
@@ -36,6 +35,11 @@ No API keys means failed requests to select API resources.
 
 ## `Dockerfile`
 Attached to the root directory of this project, is a `Dockerfile`. Essentially, allowing users to containerize the frontend application and generate an image to run the application in isolated containers using this particular file.
+
+<br />
+
+## `main.tf` Configuration File
+Attached to the root directory of this project is a `main.tf` file that contains HCL code that could be used to automate the provisioning of AWS resources.  
 
 <br />
 
