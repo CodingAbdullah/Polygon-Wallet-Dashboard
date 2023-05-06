@@ -6,10 +6,12 @@ import { PriceType } from '../../utils/types/PriceType';
 import { WalletTransactionType } from '../../utils/types/WalletTransactionType';
 import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
 import { ERC721HoldingType } from '../../utils/types/ERC721HoldingType';
+import { WalletBalanceType } from '../../utils/types/WalletBalanceType';
 
 const WalletInformationPage: FC = () => {
     const [setAlert, updateAlert] = useState<boolean>(false);
-    const [amount, updateAmount] = useState<number>(-1);
+    const [setEmptyAlert, updateEmptyAlert] = useState<boolean>(false);
+    const [amount, updateAmount] = useState<WalletBalanceType>();
     const [ethPrice, updateEthPrice] = useState<PriceType>();
     const [maticPrice, updateMaticPrice] = useState<PriceType>();
     const [transactions, updateTransactions] = useState<WalletTransactionType>();
@@ -24,6 +26,8 @@ const WalletInformationPage: FC = () => {
     // Endpoints and URLs
     const NODE_SERVER_URL = 'http://localhost:5001';
     const COIN_GECKO_URL = "https://api.coingecko.com/api/v3";
+    const QUERY_STRING_ETHEREUM = "?ids=ethereum&vs_currencies=usd&include_24hr_change=true";
+    const QUERY_STRING_MATIC_NETWORK = "?ids=matic-network&vs_currencies=usd&include_24hr_change=true";
 
     const MATIC_ADDRESS_DETAILS_ENDPOINT = "/get-matic-wallet-information";
     const MATIC_ADDRESS_TRANSACTIONS_ENDPOINT = '/get-matic-wallet-transactions';
@@ -32,7 +36,7 @@ const WalletInformationPage: FC = () => {
 
     const alertHandler = () => { 
         // Clear data upon error
-        updateAmount(-1);
+        updateAmount(undefined);
         updateEthPrice(undefined);
         updateMaticPrice(undefined);
         updateTransactions(undefined);
@@ -42,17 +46,107 @@ const WalletInformationPage: FC = () => {
 
     const clearHandler = () => {
         // Clear values upon User clear button selection
-        updateAmount(-1);
+        updateAmount(undefined);
         updateEthPrice(undefined);
         updateMaticPrice(undefined);
         updateTransactions(undefined);
         updateERC20Holdings(undefined);
         updateERC721Holdings(undefined);
         updateAlert(false);
+        updateEmptyAlert(false);
     }
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
-       
+        e.preventDefault(); // Prevent abnormal form submission
+
+        if (walletAddress.current?.value.length !== 42 || walletAddress.current?.value.substring(0, 2) !== '0x') {
+            updateAlert(true);
+        }
+        else {
+            updateAlert(false);
+            
+            // Adding Options to Request Body
+            let options = {
+                method: 'POST',
+                body: JSON.stringify({ walletAddress: walletAddress.current?.value }),
+                headers: {
+                    'content-type' : 'application/json'
+                }
+            }
+
+            // Fetch Coin Prices and their Respective Price Changes
+            axios.get(COIN_GECKO_URL + QUERY_STRING_ETHEREUM)
+            .then(response => {
+                updateEthPrice(response.data);
+            })
+            .catch(() => {
+                updateAlert(true);
+            });
+
+            axios.get(COIN_GECKO_URL + QUERY_STRING_MATIC_NETWORK)
+            .then(response => {
+                updateMaticPrice(response.data);
+            })
+            .catch(() => {
+                updateAlert(true);
+            });
+
+            // Requesting Wallet Information
+            axios.post(NODE_SERVER_URL + MATIC_ADDRESS_DETAILS_ENDPOINT, options)
+            .then(response => {
+                if (response.data.information.result === 0) {
+                    updateEmptyAlert(true);
+                    updateAlert(false);
+                }
+                else {
+                    updateTransactions(response.data.information);
+                    updateEmptyAlert(false);
+                    updateAlert(false);
+                }
+            });
+
+            // Requesting List of Transactions
+            axios.post(NODE_SERVER_URL + MATIC_ADDRESS_TRANSACTIONS_ENDPOINT, options)
+            .then(response => {
+                if (response.data.information.result.length === 0) {
+                    updateEmptyAlert(true);
+                    updateAlert(false);
+                }
+                else {
+                    updateTransactions(response.data.information);
+                    updateEmptyAlert(false);
+                    updateAlert(false);
+                }
+            });
+
+            // List of Wallet ERC20 Holdings
+            axios.post(NODE_SERVER_URL + MATIC_ADDRESS_ERC20_HOLDINGS_ENDPOINT, options)
+            .then(response => {
+                if (response.data.information.length === 0) {
+                    updateEmptyAlert(true);
+                    updateAlert(false);
+                }
+                else {
+                    updateERC20Holdings(response.data.information);
+                    updateEmptyAlert(false);
+                    updateAlert(false);
+                }
+            });
+
+            // List of Wallet ERC721 Holdings
+            axios.post(NODE_SERVER_URL + MATIC_ADDRESS_ERC721_HOLDINGS_ENDPOINT, options)
+            .then(response => {
+                if (response.data.information.result.length === 0) {
+                    updateEmptyAlert(true);
+                    updateAlert(false);
+                }
+                else {
+                    updateERC721Holdings(response.data.information);
+                    updateEmptyAlert(false);
+                    updateAlert(false);
+                }
+            });
+        }
     }
 
     return (

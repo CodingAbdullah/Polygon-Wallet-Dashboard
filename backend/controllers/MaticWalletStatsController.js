@@ -12,26 +12,27 @@ const endBlock = 99999999;
 const page = 1;
 const sort = 'desc';
 
-// Everything else from Moralis or Polygonscan
+// Everything else from Moralis or Polygon Scan
 exports.MaticAddressDetails = (req, res) => {
     const { address, network } = JSON.parse(req.body.body);
+        
         if (network === 'polygon') {
             // Gather wallet analytics using API resources and running checks to see if wallet address is valid
-            axios.get(MATIC_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.POLYGON_API_KEY)
-            .then(response => 
+            axios.get(MATIC_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.MATIC_API_KEY)
+            .then(response => {
                 res.status(200).json({ 
                     information: response.data 
-                })
-            )
-            .catch(err => 
+                });
+            })
+            .catch(err => {
                 res.status(400).json({ 
                     information: err 
-                })
-            );
+                });
+            });
         }
         else {
             // Gather wallet analytics using API resources and running checks to see if wallet address is valid
-            axios.get(MATIC_MUMBAI_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.POLYGON_API_KEY)
+            axios.get(MATIC_MUMBAI_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.MATIC_API_KEY)
             .then(response => 
                 res.status(200).json({ 
                     information: response.data 
@@ -51,7 +52,7 @@ exports.MaticAddressTransactions = (req, res) => {
     if (network === 'polygon'){
         // Transactions of a particular account, if the address of the particular one entered is valid
         axios.get(MATIC_URL + '?module=' + mod + "&action=txlist&address=" + address + "&startblock=" + startBlock 
-        + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.POLYGON_API_KEY)
+        + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
         .then(response => 
             res.status(200).json({ 
                 information: response.data, 
@@ -66,17 +67,17 @@ exports.MaticAddressTransactions = (req, res) => {
     else {
         // Transactions of a particular account, if the address of the particular one entered is valid
         axios.get(MATIC_MUMBAI_URL + '?module=' + mod + "&action=txlist&address=" + address + "&startblock=" + startBlock 
-        + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.POLYGON_API_KEY)
+        + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
         .then(response => 
             res.status(200).json({ 
                 information: response.data, 
             })
         )
-        .catch(err => 
+        .catch(err => {
             res.status(400).json({ 
                 information: err 
-            })
-        );
+            });
+        });
     }
 }
 
@@ -101,11 +102,11 @@ exports.MaticERC20Holdings = (req, res) => {
             information: response.data 
         });
     })
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({ 
             information: err 
-        })
-    );
+        });
+    });
 }
 
 exports.MaticERC721Holdings = (req, res) => {
