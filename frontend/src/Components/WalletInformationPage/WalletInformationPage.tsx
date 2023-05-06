@@ -1,100 +1,58 @@
-import React, { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useState, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Alert from '../Alert/Alert';
+import { PriceType } from '../../utils/types/PriceType';
+import { WalletTransactionType } from '../../utils/types/WalletTransactionType';
+import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
+import { ERC721HoldingType } from '../../utils/types/ERC721HoldingType';
 
 const WalletInformationPage: FC = () => {
-    const [setAlert, updateAlert] = useState(false);
-    const [emptyTransactionAlert, updateTransactionAlert] = useState(false);
-    const [emptyERC20Alert, updateERC20Alert] = useState(false);
-    const [emptyERC721Alert, updateERC721Alert] = useState(false);
-    const [networkID, updateNetworkID] = useState('matic');
-    const [setNetworkID, updateSetNetworkID] = useState('matic');
-    const [checkComplete, updateCheckComplete] = useState(false);
+    const [setAlert, updateAlert] = useState<boolean>(false);
+    const [amount, updateAmount] = useState<number>(-1);
+    const [ethPrice, updateEthPrice] = useState<PriceType>();
+    const [maticPrice, updateMaticPrice] = useState<PriceType>();
+    const [transactions, updateTransactions] = useState<WalletTransactionType>();
+    const [ERC20Holdings, updateERC20Holdings] = useState<ERC20HoldingType>();
+    const [ERC721Holdings, updateERC721Holdings] = useState<ERC721HoldingType>();
 
-    const [walletAddress, updateWalletAddress] = useState("");
-    const [setWalletAddress, updateSetWalletAddress] = useState("");
-    
+    const networkID = useRef<HTMLInputElement>(null);
+    const walletAddress = useRef<HTMLInputElement>(null);
+
     const navigate = useNavigate();
 
-    const [amount, updateAmount] = useState(-1);
-
-    const [ethPrice, updateEthPrice] = useState({
-        information: null
-    });
-
-    const [maticPrice, updateMaticPrice] = useState({
-        information: null
-    });
-
-    const [transactions, updateTransactions] = useState({
-        information: null
-    });
-
-    const [ERC20Holdings, updateERC20Holdings] = useState({
-        information: null
-    });
-
-    const [ERC721Holdings, updateERC721Holdings] = useState({
-        information: null
-    });
-
     // Endpoints and URLs
-    const NODE_SERVER_URL = 'http://localhost:5000';
+    const NODE_SERVER_URL = 'http://localhost:5001';
     const COIN_GECKO_URL = "https://api.coingecko.com/api/v3";
-    const QUERY_STRING_ETHEREUM = "?ids=ethereum&vs_currencies=usd&include_24hr_change=true";
-    const QUERY_STRING_MATIC_NETWORK = "?ids=matic-network&vs_currencies=usd&include_24hr_change=true";
 
-    const TRANSACTION_DETAIL_ENDPOINT = "/address-transaction-details";
-    const ADDRESS_ERC20HOLDINGS_ENDPOINT = '/address-erc20-holdings';
-    const API_ENDPOINT = "/simple/price";
-    const ADDRESS_ERC721HOLDINGS_ENDPOINT = "/address-erc721-holdings";
-    const ADDRESS_DETAILS_ENDPOINT = "/address-details";
+    const MATIC_ADDRESS_DETAILS_ENDPOINT = "/get-matic-wallet-information";
+    const MATIC_ADDRESS_TRANSACTIONS_ENDPOINT = '/get-matic-wallet-transactions';
+    const MATIC_ADDRESS_ERC20_HOLDINGS_ENDPOINT = "/get-matic-wallet-erc20-holdings";
+    const MATIC_ADDRESS_ERC721_HOLDINGS_ENDPOINT = "/get-matic-wallet-erc721-holdings";
 
-    const alertHandler = () => { // Clear data upon error
+    const alertHandler = () => { 
+        // Clear data upon error
         updateAmount(-1);
-        updateEthPrice((prevState) => {
-            return {
-                ...prevState,
-                information: null
-            }
-        });
-        updateMaticPrice((prevState) => {
-            return {
-                ...prevState,
-                information: null
-            }
-        });
-        updateTransactions((prevState) => {
-            return {
-                ...prevState,
-                information: null
-            }
-        });
-        updateERC20Holdings((prevState) => {
-            return {
-                ...prevState,
-                information: null
-            }
-        });
-        updateERC721Holdings((prevState) => {
-            return {
-                ...prevState,
-                information: null
-            }
-        });
+        updateEthPrice(undefined);
+        updateMaticPrice(undefined);
+        updateTransactions(undefined);
+        updateERC20Holdings(undefined);
+        updateERC721Holdings(undefined);
     }
 
     const clearHandler = () => {
-
+        // Clear values upon User clear button selection
+        updateAmount(-1);
+        updateEthPrice(undefined);
+        updateMaticPrice(undefined);
+        updateTransactions(undefined);
+        updateERC20Holdings(undefined);
+        updateERC721Holdings(undefined);
+        updateAlert(false);
     }
 
-    const updateNetworkHandler = (e: FormEvent<HTMLFormElement>) => {
-       // updateNetworkID(e.target.value);
-    }
-
-    const formHandler = (e: FormEvent<HTMLFormElement>) => {   
-
+    const formHandler = (e: FormEvent<HTMLFormElement>) => {
+       
     }
 
     return (
@@ -108,20 +66,20 @@ const WalletInformationPage: FC = () => {
                         <div className="container bg-light p-3">
                             <p>Enter <b>Wallet Address</b> of your choice for information</p>
                             <form onSubmit={ formHandler }>
-                                <input onChange={ e => updateWalletAddress(e.target.value) } type='text' placeholder='Enter Address Here'></input>
+                                <input ref={ walletAddress } type='text' placeholder='Enter Address Here'></input>
                                 <br />
                                 <label style={{ marginTop: '3rem' }}>
                                     <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
                                 </label>
                                 <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                        <input className="form-check-input" type="radio" ref={ networkID } name="polygon" value="polygon" />
                                         <label className="form-check-label">
                                             Polygon
                                         </label>
                                     </div>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" name="polygon-mumbai" value="polygon-mumbai" />
+                                        <input className="form-check-input" type="radio" ref={ networkID } name="polygon-mumbai" value="polygon-mumbai" />
                                         <label className="form-check-label">
                                             Polygon Mumbai
                                         </label>

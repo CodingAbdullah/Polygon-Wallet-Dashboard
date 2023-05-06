@@ -1,4 +1,4 @@
-import React, { FormEvent, FC, useState } from 'react';
+import { FormEvent, FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Alert from '../Alert/Alert';
 import axios from 'axios';
