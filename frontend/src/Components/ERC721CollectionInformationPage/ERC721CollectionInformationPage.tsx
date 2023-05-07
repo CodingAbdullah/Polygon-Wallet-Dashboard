@@ -1,19 +1,87 @@
 import { FC, useState, useRef, FormEvent } from 'react';
 import Alert from '../Alert/Alert';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 // Adding ERC20 Collection Page for Analytics
 const ERC20CollectionInformationPage: FC = () => {
     const [setAlert, updateAlert] = useState<boolean>(false);
+    const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
     const tokenAddress = useRef<HTMLInputElement>(null);
+    const [collectionInformation, updateCollectionInformation] = useState(null);
+    const [collectionTransfers, updateCollectionTransfers] = useState(null);
+    const [collectionAttributes, updateCollectionAttributes] = useState(null);
+    const [collectionSales, updateCollectionSales] = useState(null);
+
+    const NODE_SERVER_URL = 'http://localhost:5001';
+    const MATIC_ERC721_COLLECTION_INFORMATION_ENDPOINT = '/matic-erc721-collection-information';
+    const MATIC_ERC721_COLLECTION_TRANSFERS_ENDPOINT = '/matic-erc721-collection-transfers';
+    const MATIC_ERC721_COLLECTION_ATTRIBUTES_ENDPOINT = '/matic-erc721-collection-attributes';
+    const MATIC_ERC721_COLLECTION_SALES_ENDPOINT = '/matic-erc721-collection-sales';
+
     const navigate = useNavigate();
     
     const clearHandler = () => {
-
+        updateAlert(false);
+        updateEmptyAlert(false);
+        updateCollectionInformation(null);
+        updateCollectionTransfers(null);
+        updateCollectionAttributes(null);
+        updateCollectionSales(null);
     }
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
+        // Set options for fetch and flight responses
+        const options = {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({ address : tokenAddress.current!.value }),
+            headers: {
+                'content-type' : 'application/json', 
+                'accept': 'application/json',
+            }
+        }
 
+        // Fetch ERC721 Collection Information
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_INFORMATION_ENDPOINT)
+        .then(response => {
+            // Code for the ERC721 Collection Information goes here..
+        })
+        .catch(() => {
+            updateAlert(true);
+            updateEmptyAlert(false);
+        });
+
+        // Fetch ERC721 Collection Transfers Information
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_TRANSFERS_ENDPOINT)
+        .then(response => {
+            // Code for the ERC721 Collection Transfers goes here..
+        })
+        .catch(() => {
+            updateAlert(true);
+            updateEmptyAlert(false);
+
+        });
+
+        // Fetch ERC721 Collection Attributes Information
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_ATTRIBUTES_ENDPOINT)
+        .then(response => {
+            // Code for the ERC721 Collection Attributes goes here..
+        })
+        .catch(() => {
+            updateAlert(true);
+            updateEmptyAlert(false);
+        });
+
+        // Fetch ERC721 Collection Sales Information
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_SALES_ENDPOINT)
+        .then(response => {
+            // Code for the ERC721 Collection Sales goes here..
+        })
+        .catch(() => {
+            updateAlert(true);
+            updateEmptyAlert(false);
+        });
     }
 
     return (
