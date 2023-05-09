@@ -1,6 +1,7 @@
 import { FC, useState, useRef, FormEvent } from 'react';
 import Alert from '../Alert/Alert';
 import { useNavigate } from 'react-router';
+import { ERC721CollectionInformationType } from '../../utils/types/ERC721CollectionInformationType';
 import axios from 'axios';
 
 // Adding ERC20 Collection Page for Analytics
@@ -8,7 +9,7 @@ const ERC20CollectionInformationPage: FC = () => {
     const [setAlert, updateAlert] = useState<boolean>(false);
     const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
     const tokenAddress = useRef<HTMLInputElement>(null);
-    const [collectionInformation, updateCollectionInformation] = useState(null);
+    const [collectionInformation, updateCollectionInformation] = useState<ERC721CollectionInformationType>();
     const [collectionTransfers, updateCollectionTransfers] = useState(null);
     const [collectionAttributes, updateCollectionAttributes] = useState(null);
     const [collectionSales, updateCollectionSales] = useState(null);
@@ -24,7 +25,7 @@ const ERC20CollectionInformationPage: FC = () => {
     const clearHandler = () => {
         updateAlert(false);
         updateEmptyAlert(false);
-        updateCollectionInformation(null);
+        updateCollectionInformation(undefined);
         updateCollectionTransfers(null);
         updateCollectionAttributes(null);
         updateCollectionSales(null);
@@ -43,9 +44,9 @@ const ERC20CollectionInformationPage: FC = () => {
         }
 
         // Fetch ERC721 Collection Information
-        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_INFORMATION_ENDPOINT)
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_INFORMATION_ENDPOINT, options)
         .then(response => {
-            // Code for the ERC721 Collection Information goes here..
+            updateCollectionInformation(response.data.information);
         })
         .catch(() => {
             updateAlert(true);
@@ -53,7 +54,7 @@ const ERC20CollectionInformationPage: FC = () => {
         });
 
         // Fetch ERC721 Collection Transfers Information
-        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_TRANSFERS_ENDPOINT)
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_TRANSFERS_ENDPOINT, options)
         .then(response => {
             // Code for the ERC721 Collection Transfers goes here..
         })
@@ -64,7 +65,7 @@ const ERC20CollectionInformationPage: FC = () => {
         });
 
         // Fetch ERC721 Collection Attributes Information
-        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_ATTRIBUTES_ENDPOINT)
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_ATTRIBUTES_ENDPOINT, options)
         .then(response => {
             // Code for the ERC721 Collection Attributes goes here..
         })
@@ -74,7 +75,7 @@ const ERC20CollectionInformationPage: FC = () => {
         });
 
         // Fetch ERC721 Collection Sales Information
-        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_SALES_ENDPOINT)
+        axios.post(NODE_SERVER_URL + MATIC_ERC721_COLLECTION_SALES_ENDPOINT, options)
         .then(response => {
             // Code for the ERC721 Collection Sales goes here..
         })
