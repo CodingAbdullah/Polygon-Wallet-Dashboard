@@ -45,6 +45,7 @@ exports.getERC20Transfers = (req, res) => {
         } 
     }
 
+    // ERC20 Holdings for an account
     axios.get(MORALIS_URL + address + '/erc20/transfers?chain=' + refinedNetwork + '&format=decimal&direction=both', options) // Pass in address and chain values
     .then(response => {
         res.status(200).json({

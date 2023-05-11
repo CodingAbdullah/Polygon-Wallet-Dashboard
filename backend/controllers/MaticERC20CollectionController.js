@@ -16,6 +16,7 @@ exports.getERC20CollectionInformation = (req, res) => {
         } 
     }
 
+    // Backend ERC20 Collection endpoint
     axios.get(MORALIS_URL + erc20Endpoint + address + '/price?chain=polygon', options) // Pass in address and chain values
     .then(response => {
         res.status(200).json({

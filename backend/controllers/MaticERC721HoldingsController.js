@@ -17,6 +17,7 @@ exports.getAddressTokenHoldings = (req, res) => {
         } 
     }
 
+    // ERC721 Token Holdings
     axios.get(MORALIS_URL + address + '/nft?chain=' + refinedNetwork + '&format=decimal', options) // Pass in address and chain values
     .then(response => {
         res.status(200).json({
