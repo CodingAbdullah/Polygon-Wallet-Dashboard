@@ -81,6 +81,41 @@ exports.MaticAddressTransactions = (req, res) => {
     }
 }
 
+exports.MaticWalletInternalTransactions = (req, res) => {
+    const { address, network } = JSON.parse(req.body.body);
+
+    if (network === 'polygon'){
+        // Transactions of a particular account, if the address of the particular one entered is valid
+        axios.get(MATIC_URL + '?module=' + mod + "&action=txlistinternal&address=" + address + "&startblock=" + startBlock 
+        + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
+        .then(response => 
+            res.status(200).json({ 
+                information: response.data, 
+            })
+        )
+        .catch(err => 
+            res.status(400).json({ 
+                information: err 
+            })
+        );
+    }
+    else {
+        // Transactions of a particular account, if the address of the particular one entered is valid
+        axios.get(MATIC_MUMBAI_URL + '?module=' + mod + "&action=txlistinternal&address=" + address + "&startblock=" + startBlock 
+        + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
+        .then(response => 
+            res.status(200).json({ 
+                information: response.data, 
+            })
+        )
+        .catch(err => {
+            res.status(400).json({ 
+                information: err 
+            });
+        });
+    }
+}
+
 exports.MaticERC20Holdings = (req, res) => {
     const { address, network } = JSON.parse(req.body.body);
 

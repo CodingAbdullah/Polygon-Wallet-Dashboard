@@ -2,8 +2,12 @@ import { FC, FormEvent, useState, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Alert from '../Alert/Alert';
+import WalletBalanceSection from '../WalletBalanceSection/WalletBalanceSection';
+import WalletTransactionsInfoTable from '../WalletTransactionsInfoTable/WalletTransactionsInfoTable';
+import WalletInternalTransactionsInfoTable from '../WalletInternalTransactionsInfoTable/WalletInternalTransactionsInfoTable';
 import { PriceType } from '../../utils/types/PriceType';
 import { WalletTransactionType } from '../../utils/types/WalletTransactionType';
+import { WalletInternalTransactionType } from '../../utils/types/InternalTransactionType';
 import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
 import { ERC721HoldingType } from '../../utils/types/ERC721HoldingType';
 import { WalletBalanceType } from '../../utils/types/WalletBalanceType';
@@ -15,6 +19,7 @@ const WalletInformationPage: FC = () => {
     const [ethPrice, updateEthPrice] = useState<PriceType>();
     const [maticPrice, updateMaticPrice] = useState<PriceType>();
     const [transactions, updateTransactions] = useState<WalletTransactionType>();
+    const [internalTransactions, updateInternalTransactions] = useState<WalletInternalTransactionType>();
     const [ERC20Holdings, updateERC20Holdings] = useState<ERC20HoldingType>();
     const [ERC721Holdings, updateERC721Holdings] = useState<ERC721HoldingType>();
 
@@ -31,6 +36,7 @@ const WalletInformationPage: FC = () => {
 
     const MATIC_ADDRESS_DETAILS_ENDPOINT = "/get-matic-wallet-information";
     const MATIC_ADDRESS_TRANSACTIONS_ENDPOINT = '/get-matic-wallet-transactions';
+    const MATIC_ADDRESS_INTERNAL_TRANSACTIONS_ENDPOINT = '/get-matic-wallet-internal-transactions';
     const MATIC_ADDRESS_ERC20_HOLDINGS_ENDPOINT = "/get-matic-wallet-erc20-holdings";
     const MATIC_ADDRESS_ERC721_HOLDINGS_ENDPOINT = "/get-matic-wallet-erc721-holdings";
 
@@ -119,6 +125,20 @@ const WalletInformationPage: FC = () => {
                 }
             });
 
+            // Requesting List of Internal Transactions
+            axios.post(NODE_SERVER_URL + MATIC_ADDRESS_INTERNAL_TRANSACTIONS_ENDPOINT, options)
+            .then(response => {
+                if (response.data.information.result.length === 0) {
+                    updateEmptyAlert(true);
+                    updateAlert(false);
+                }
+                else {
+                    updateInternalTransactions(response.data.information);
+                    updateEmptyAlert(false);
+                    updateAlert(false);
+                }
+            });
+
             // List of Wallet ERC20 Holdings
             axios.post(NODE_SERVER_URL + MATIC_ADDRESS_ERC20_HOLDINGS_ENDPOINT, options)
             .then(response => {
@@ -186,6 +206,32 @@ const WalletInformationPage: FC = () => {
                         </div>
                     </div>  
             </main>
+            {
+                transactions === undefined || setEmptyAlert || setAlert ? null : 
+                <WalletBalanceSection data={ amount! } address={ walletAddress.current!.value } />
+            }
+            {
+                transactions === undefined || setEmptyAlert || setAlert ? null :
+                    <>
+                        <main style={{ marginTop: '5rem' }} role="main">
+                            <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 className="h3">Transactions (Limited to 1000)</h3>
+                            </div>
+                        </main>
+                        <WalletTransactionsInfoTable address={ walletAddress.current!.value } data={ transactions! } /> 
+                    </>
+            }            
+            {
+                internalTransactions === undefined || setEmptyAlert || setAlert ? null :
+                    <>
+                        <main style={{ marginTop: '5rem' }} role="main">
+                            <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 className="h3">Internal Transactions</h3>
+                            </div>
+                        </main>
+                        <WalletInternalTransactionsInfoTable address={ walletAddress.current!.value } data={ internalTransactions! } /> 
+                    </>
+            }
         </div>
     )
 }
