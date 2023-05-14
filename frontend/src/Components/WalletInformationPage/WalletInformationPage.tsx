@@ -11,6 +11,8 @@ import { WalletInternalTransactionType } from '../../utils/types/InternalTransac
 import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
 import { ERC721HoldingType } from '../../utils/types/ERC721HoldingType';
 import { WalletBalanceType } from '../../utils/types/WalletBalanceType';
+import ERC721HoldingsInfoTable from '../ERC721HoldingsInfoTable/ERC721HoldingsInfoTable';
+import ERC20TokenHoldingsInfoTable from '../ERC20TokenHoldingsInfoTable/ERC20TokenHoldingsInfoTable';
 
 const WalletInformationPage: FC = () => {
     const [setAlert, updateAlert] = useState<boolean>(false);
@@ -230,6 +232,28 @@ const WalletInformationPage: FC = () => {
                             </div>
                         </main>
                         <WalletInternalTransactionsInfoTable address={ walletAddress.current!.value } data={ internalTransactions! } /> 
+                    </>
+            }
+            {
+                ERC20Holdings === undefined || setEmptyAlert || setAlert ? null :
+                    <>
+                        <main style={{ marginTop: '5rem' }} role="main">
+                            <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 className="h3">ERC20 Holdings</h3>
+                            </div>
+                        </main>
+                        <ERC20TokenHoldingsInfoTable data={ ERC20Holdings! } /> 
+                    </>
+            }
+            {
+                ERC721Holdings === undefined || setEmptyAlert || setAlert ? null :
+                    <>
+                        <main style={{ marginTop: '5rem' }} role="main">
+                            <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 className="h3">ERC721 Holdings</h3>
+                            </div>
+                        </main>
+                        <ERC721HoldingsInfoTable data={ ERC721Holdings! } /> 
                     </>
             }
         </div>
