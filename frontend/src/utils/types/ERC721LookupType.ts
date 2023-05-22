@@ -1,27 +1,21 @@
 // Adding interfaces to represent complex types
 export interface ERC721LookupType {
-    total: string,
-    page: number,
-    page_size: number,
-    cursor: string,
-    result: {
-        block_number: string,
-        block_timestamp: string,
-        block_hash: string,
-        transaction_hash: string,
-        transaction_index: number,
-        log_index: number,
-        value: string,
-        contract_type: string,
-        transaction_type: string,
+    lookupInformation: {
         token_address: string,
         token_id: string,
-        from_address: string,
-        to_address: string,
+        transfer_index: number[],
+        owner_of: string,
+        block_number: string,
+        block_number_minted: string,
+        token_hash: string,
         amount: string,
-        verified: number,
-        operator: string,
-        possible_spam: boolean
-    }[],
-    block_exists: boolean
+        contract_type: string,
+        name: string,
+        symbol: string,
+        token_uri: string,
+        metadata: string,
+        last_token_uri_sync: string,
+        last_metadata_sync: string,
+        minter_address: string
+    }
 }
