@@ -19,7 +19,6 @@ const ERC20CollectionInformationPage: FC = () => {
     const MATIC_ERC721_COLLECTION_ATTRIBUTES_ENDPOINT = '/matic-erc721-collection-attributes';
     const MATIC_ERC721_COLLECTION_SALES_ENDPOINT = '/matic-erc721-collection-sales';
 
-    const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
     const [collectionInformation, updateCollectionInformation] = useState<ERC721CollectionInformationType>();
     const [collectionTransfers, updateCollectionTransfers] = useState<ERC721CollectionTransferInformationType>();
     const [collectionAttributes, updateCollectionAttributes] = useState<ERC721CollectionAttributesType>();
@@ -31,7 +30,6 @@ const ERC20CollectionInformationPage: FC = () => {
     
     const clearHandler = () => {
         updateAlert(false);
-        updateEmptyAlert(false);
         updateCollectionInformation(undefined);
         updateCollectionTransfers(undefined);
         updateCollectionAttributes(undefined);
@@ -57,7 +55,6 @@ const ERC20CollectionInformationPage: FC = () => {
         })
         .catch(() => {
             updateAlert(true);
-            updateEmptyAlert(false);
         });
 
         // Fetch ERC721 Collection Transfers Information
@@ -67,8 +64,6 @@ const ERC20CollectionInformationPage: FC = () => {
         })
         .catch(() => {
             updateAlert(true);
-            updateEmptyAlert(false);
-
         });
 
         // Fetch ERC721 Collection Attributes Information
@@ -78,7 +73,6 @@ const ERC20CollectionInformationPage: FC = () => {
         })
         .catch(() => {
             updateAlert(true);
-            updateEmptyAlert(false);
         });
 
         // Fetch ERC721 Collection Sales Information
@@ -88,7 +82,6 @@ const ERC20CollectionInformationPage: FC = () => {
         })
         .catch(() => {
             updateAlert(true);
-            updateEmptyAlert(false);
         });
     }
 
