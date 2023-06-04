@@ -5,6 +5,10 @@ import { ERC721CollectionInformationType } from '../../utils/types/ERC721Collect
 import { ERC721CollectionTransferInformationType } from '../../utils/types/ERC721CollectionTransferInformationType';
 import { ERC721CollectionAttributesType } from '../../utils/types/ERC721CollectionAttributesType';
 import { ERC721CollectionSalesInformationType } from '../../utils/types/ERC721CollectionSalesInformationType';
+import ERC721CollectionAttributesInfoTable from '../ERC721CollectionAttributesInfoTable/ERC721CollectionAttributesInfoTable';
+import ERC721CollectionInfoTable from '../ERC721CollectionInfoTable/ERC721CollectionInfoTable';
+import ERC721CollectionSalesInfoTable from '../ERC721CollectionSalesInfoTable/ERC721CollectionSalesInfoTable';
+import ERC721CollectionTransferInfoTable from '../ERC721CollectionTransferInfoTable/ERC721CollectionTransferInfoTable';
 import axios from 'axios';
 
 // Adding ERC20 Collection Page for Analytics
@@ -108,6 +112,62 @@ const ERC20CollectionInformationPage: FC = () => {
                     </div>  
                 </div>
             </main>
+                { 
+                    collectionInformation !== undefined ? 
+                        <>
+                            <main style={{ marginTop: '3rem', overflowX: 'scroll', paddingBottom: '2rem' }} role="main">
+                                <h4>NFT Collection Name: <b>{ collectionInformation!.result.name }</b></h4>
+                                <h4>Contract Address: <b>{ tokenAddress.current!.value }</b></h4> 
+                                <h4>Total Items: <b>{ collectionInformation!.total }</b></h4> 
+                            </main>
+                        </> : null
+                }
+                {
+                    collectionInformation !== undefined ?
+                        <>
+                            <main style={{ marginTop: '3rem' }} className="p-3" role="main">
+                                <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h3 className="h3">Sample Collection Data</h3>
+                                </div>
+                            </main>
+                            <ERC721CollectionInfoTable data={ collectionInformation } />
+                        </> : null
+                }
+                {
+                    collectionAttributes !== undefined ?
+                        <>
+                            <main style={{ marginTop: '3rem' }} className="p-3" role="main">
+                                <>
+                                    <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                        <h3 className="h3">Collection Attributes</h3>
+                                    </div>
+                                </> 
+                            </main>
+                            <ERC721CollectionAttributesInfoTable data={ collectionAttributes! } />
+                        </> : null
+                }
+                {
+                    collectionTransfers !== undefined ?
+                        <>
+                            <main style={{ marginTop: '3rem' }} className="p-3" role="main">
+                                <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h3 className="h3">Sample Collection Transfer Data</h3>
+                                </div>
+                            </main>
+                            <ERC721CollectionTransferInfoTable data={ collectionTransfers! } />
+                        </> : null
+                }
+                {
+                    collectionSales !== undefined ?
+                        <>
+                            <main style={{ marginTop: '3rem' }} className="p-3" role="main">
+                                <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h3 className="h3">Recent Collection Sales</h3>
+                                </div>
+                            </main>
+                            <ERC721CollectionSalesInfoTable data={ collectionSales! } />
+                        </> : null
+                }
         </div>
     )
 }
