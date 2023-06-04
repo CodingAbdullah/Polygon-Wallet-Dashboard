@@ -19,7 +19,7 @@ const ERC20PricesInfoTable = (props: { data: ERC20PriceType }) => {
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>Current Price</b></td>
-                <td style={{ border: '1px solid black' }}>{ data.market_data.current_price.usd }</td>
+                <td style={{ border: '1px solid black' }}>${ data.market_data.current_price.usd } USD</td>
               </tr>
               <tr style={{border: '1px solid black'}}>
                 <td style={{border: '1px solid black'}}><b>Contract Address</b></td>
@@ -49,15 +49,15 @@ const ERC20PricesInfoTable = (props: { data: ERC20PriceType }) => {
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>24 Hr. Highest Price</b></td>
-                <td style={{ border: '1px solid black' }}>{ data.market_data.high_24h.usd }</td>
+                <td style={{ border: '1px solid black' }}>${ data.market_data.high_24h.usd } USD</td>
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>24 Hr. Lowest Price</b></td>
-                <td style={{ border: '1px solid black' }}>{ data.market_data.low_24h.usd }</td>
+                <td style={{ border: '1px solid black' }}>${ data.market_data.low_24h.usd } USD</td>
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>All-Time Lowest Price</b></td>
-                <td style={{ border: '1px solid black' }}>{ data.market_data.atl.usd }</td>
+                <td style={{ border: '1px solid black' }}>${ data.market_data.atl.usd } USD</td>
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>All-Time Lowest Price Date</b></td>
@@ -65,7 +65,7 @@ const ERC20PricesInfoTable = (props: { data: ERC20PriceType }) => {
               </tr>
               <tr style={{border: '1px solid black'}}>
                 <td style={{border: '1px solid black'}}><b>All-Time Highest Price</b></td>
-                <td style={{border: '1px solid black'}}>{ data.market_data.ath.usd }</td>
+                <td style={{border: '1px solid black'}}>${ data.market_data.ath.usd } USD</td>
               </tr>
               <tr style={{ border: '1px solid black' }}>
                 <td style={{ border: '1px solid black' }}><b>All-Time Highest Price Date</b></td>

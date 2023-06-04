@@ -37,6 +37,8 @@ const ERC20CollectionInformationPage: FC = () => {
     }
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         // Set options for fetch and flight responses
         const options = {
             method: 'POST',
