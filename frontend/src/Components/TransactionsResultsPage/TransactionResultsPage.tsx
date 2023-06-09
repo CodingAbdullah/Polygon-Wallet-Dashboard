@@ -26,8 +26,8 @@ const TransactionsResultsPage: FC = () => {
         }
         else {
             let options = {
-                method: "GET",
-                body: JSON.stringify({ walletAddress: address }),
+                method: "POST",
+                body: JSON.stringify({ address }),
                 headers : {
                     'content-type' : 'application/json'
                 }
@@ -36,6 +36,7 @@ const TransactionsResultsPage: FC = () => {
             // Update transactions state with txns request
             axios.post('http://localhost:5001/get-matic-wallet-transaction-information', options)
             .then(response => {
+                console.log(response.data);
                 if (response.data.information.result.length === 0) {
                     updateEmptyAlert(true);
                 }
@@ -64,10 +65,13 @@ const TransactionsResultsPage: FC = () => {
                 updateEmptyAlert(true);
             });
 
-            // Get ETH price along with wallet balance information
+            // Get MATIC price along with wallet balance information
             axios.post('http://localhost:5001/get-matic-wallet-transactions-balance-information', options)
             .then(response => {
                 updateWalletBalanceInformationState(response.data);  
+            })
+            .catch(() => {
+                updateEmptyAlert(true);
             });
         }
     }, []);
@@ -87,7 +91,7 @@ const TransactionsResultsPage: FC = () => {
                                 {
                                     walletTransactionState === undefined ||  walletInternalTransactionState === undefined || walletBalanceInformationState === undefined || emptyAlert ? null :
                                         <>     
-                                            <WalletBalanceSection data={ walletBalanceInformationState } address={ address! } />
+                                            <WalletBalanceSection data={ walletBalanceInformationState! } address={ address! } />
                                             <main style={{ marginTop: '5rem' }} role="main">
                                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                                     <h3 className="h3">Transactions</h3>

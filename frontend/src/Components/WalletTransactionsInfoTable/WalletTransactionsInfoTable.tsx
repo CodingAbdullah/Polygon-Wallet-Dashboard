@@ -28,7 +28,7 @@ const WalletTransactionsInfoTable = (props: { data: WalletTransactionType, addre
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{ record.from }</td>
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{ record.to }</td>
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{ address.toLowerCase() === (record.to).toLowerCase() ? <Badge type="IN" /> : <Badge type="OUT" /> }</td>
-                                        <td style={{ border: '1px solid black', fontSize: '11px' }}>{ ( Number(record.value)*(1/1000000000000000000) ).toPrecision(4) + " ETH" }</td>
+                                        <td style={{ border: '1px solid black', fontSize: '11px' }}>{ ( Number(record.value)*(1/1000000000000000000) ).toPrecision(4) + " MATIC" }</td>
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{ record.gas }</td>
                                     </tr>
                                 )

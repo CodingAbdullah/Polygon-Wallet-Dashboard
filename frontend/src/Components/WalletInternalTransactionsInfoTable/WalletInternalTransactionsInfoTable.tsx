@@ -1,7 +1,7 @@
 import Badge from '../Badge/Badge';
 import { WalletInternalTransactionType } from '../../utils/types/WalletInternalTransactionType';
 
-const TransactionsInfoTable = (props: { data: WalletInternalTransactionType, address: string }) => {
+const WalletInternalTransactionsInfoTable = (props: { data: WalletInternalTransactionType, address: string }) => {
     const { data, address } = props; // Retrieving data from transactions page
 
     return (
@@ -28,7 +28,7 @@ const TransactionsInfoTable = (props: { data: WalletInternalTransactionType, add
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{record.from}</td>
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{record.to}</td>
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{ address.toLowerCase() === record.to ? <Badge type="IN" /> : <Badge type="OUT" /> }</td>
-                                        <td style={{ border: '1px solid black', fontSize: '11px' }}>{(Number(record.value)*(1/1000000000000000000)).toPrecision(4) + " ETH"}</td>
+                                        <td style={{ border: '1px solid black', fontSize: '11px' }}>{(Number(record.value)*(1/1000000000000000000)).toPrecision(4) + " MATIC"}</td>
                                         <td style={{ border: '1px solid black', fontSize: '11px' }}>{record.gas}</td>
                                     </tr>
                                 )
@@ -40,4 +40,4 @@ const TransactionsInfoTable = (props: { data: WalletInternalTransactionType, add
     )
 }
 
-export default TransactionsInfoTable;
+export default WalletInternalTransactionsInfoTable;

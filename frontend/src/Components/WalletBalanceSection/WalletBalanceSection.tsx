@@ -8,7 +8,7 @@ const WalletBalanceSection = ( props: { data: WalletBalanceType, address: string
             <main role="main" className="pt-5">
                 <div className="jumbotron">
                     <h3>Account: { address }</h3>
-                    <h4>ETH Balance: { Number(data!.balanceInformation.result)/1000000000000000000 } ETH (@ ${ data!.maticPrice.toFixed(2) } USD/ETH )</h4>
+                    <h5>MATIC Balance: { (Number(data!.balanceInformation.result)/1000000000000000000).toFixed(4) } MATIC (@ ${ data!.maticPrice.toFixed(2) } USD/MATIC )</h5>
                     <h6>Amount in USD: ${ (( Number(data!.balanceInformation.result)/1000000000000000000 )*( data!.maticPrice )).toFixed(2) } USD</h6>
                 </div>
             </main>
