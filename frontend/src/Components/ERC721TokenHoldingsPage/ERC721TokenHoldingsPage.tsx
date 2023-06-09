@@ -19,7 +19,7 @@ const ERC721TokenHoldingsPage: FC = () => {
         information: null
     });
 
-    const NODE_SERVER_URL = "http://localhost:5000"; // Modifying end points for the backend server
+    const NODE_SERVER_URL = "http://localhost:5001"; // Modifying end points for the backend server
     const NFT_ENDPOINT = '/address-erc721-holdings';
     const NFT_TRANSFERS_ENDPOINT = '/address-erc721-transfers';
 
@@ -142,20 +142,20 @@ const ERC721TokenHoldingsPage: FC = () => {
                     <div className="container">
                         <form onSubmit={ (e) => formHandler(e) }>
                             <label>Enter <b>Wallet Address</b> for list of <b>ERC721</b> Holdings and Transfers:</label>
-                            <input style={{ marginLeft: '0.5rem' }} ref={address} type='text' placeholder='Enter Wallet Address' />
+                            <input style={{ marginLeft: '0.5rem' }} ref={ address } type='text' placeholder='Enter Wallet Address' />
                             <br />
                             <label style={{ marginTop: '3rem' }}>
                                 <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
                             </label>
                             <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                    <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon" />
                                     <label className="form-check-label">
                                         Polygon
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="polygon" value="polygon-mumbai" />
+                                    <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon-mumbai" />
                                     <label className="form-check-label">
                                         Polygon Mumbai
                                     </label>
@@ -171,7 +171,7 @@ const ERC721TokenHoldingsPage: FC = () => {
             { 
                 emptyAlert ? null : 
                     <>
-                        <main style={{marginTop: '-3rem'}} className="p-3" role="main">
+                        <main style={{ marginTop: '-3rem' }} className="p-3" role="main">
                                 <div>
                                     {
                                         nftData.information === null ? null :
@@ -186,7 +186,7 @@ const ERC721TokenHoldingsPage: FC = () => {
                                     }
                                 </div>
                         </main>
-                        <main style={{marginTop: '2rem'}} className="p-3" role="main">
+                        <main style={{ marginTop: '2rem' }} className="p-3" role="main">
                             <div>
                                 {
                                     ERC721Transfers.information === null ? null :

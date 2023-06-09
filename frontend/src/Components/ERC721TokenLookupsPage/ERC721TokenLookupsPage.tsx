@@ -1,11 +1,13 @@
-import { FormEvent, FC, useState } from 'react';
+import { FormEvent, FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Alert from '../Alert/Alert';
 import axios from 'axios';
 
 const ERC721TokenLookupsPage: FC = () => {
-    const [tokenAddress, updateTokenAddress] = useState(""); // Initialize ERC721 contract attributes
-    const [tokenId, updateTokenId] = useState("");    
+    const tokenAddress = useRef<HTMLInputElement>(null); // Initialize ERC721 contract attributes
+    const tokenId = useRef<HTMLInputElement>(null);
+    const [networkID, updateNetworkID] = useState<string>('polygon'); // Network selector set to default value
+
     const [setAlert, updateAlert] = useState(false);
     const [emptyAlert, updateEmptyAlert] = useState(false);
 
@@ -23,18 +25,13 @@ const ERC721TokenLookupsPage: FC = () => {
 
     const navigate = useNavigate();
 
-    const NODE_SERVER_URL = 'http://localhost:5000'; // API endpoints for ERC721 lookups
+    const NODE_SERVER_URL = 'http://localhost:5001'; // API endpoints for ERC721 lookups
     const LOOKUP_ENDPOINT = '/erc721-lookup-by-id';
     const TRANSFER_LOOKUP_ENDPOINT = '/erc721-lookup-transfer-by-id';
     const RARITY_LOOKUP_ENDPOINT = '/erc721-lookup-rarity-by-id';
 
-    const [networkID, updateNetworkID] = useState('matic'); // Network selector set to default value
-
-    const updateNetworkHandler = (e: FormEvent<HTMLButtonElement>) => {
-  
-    }
-
     const clearHandler = () => {
+    
     }
 
     const tokenHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -51,22 +48,22 @@ const ERC721TokenLookupsPage: FC = () => {
                 <div className="jumbotron bg-light p-3">                    
                     <form onSubmit={ tokenHandler }>
                         <p style={{ marginRight: '0.5rem' }}>Enter <b>ERC721</b> Contract Address & <b>Token ID</b> for Lookup </p>
-                        <input style={{ marginTop: '1rem' }} type="text" onChange={ e => updateTokenAddress(e.target.value) } placeholder="Enter ERC721 Contract Address" required />
+                        <input style={{ marginTop: '1rem' }} type="text" ref={ tokenAddress } placeholder="Enter ERC721 Contract Address" required />
                         <br />
-                        <input style={{ marginTop: '1rem' }} type="number" onChange={ e => updateTokenId(e.target.value) } placeholder="Enter Token ID" required />
+                        <input style={{ marginTop: '1rem' }} type="number" ref={ tokenId } placeholder="Enter Token ID" required />
                         <br />
                         <label style={{ marginTop: '3rem' }}>
                             <p style={{ marginBottom: '0.5rem' }}>Network Selector (<b>mainnet</b> by default)</p>
                         </label>
                         <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon" />
                                 <label className="form-check-label">
                                     Polygon
                                 </label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="polygon" value="polygon-mumbai" />
+                                <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon-mumbai" />
                                 <label className="form-check-label">
                                     Polygon Mumbai
                                 </label>

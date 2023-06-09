@@ -25,7 +25,7 @@ const WalletInformationPage: FC = () => {
     const [ERC20Holdings, updateERC20Holdings] = useState<ERC20HoldingType>();
     const [ERC721Holdings, updateERC721Holdings] = useState<ERC721HoldingType>();
 
-    const networkID = useRef<HTMLInputElement>(null);
+    const [networkID, updateNetworkID] = useState<string>('polygon');
     const walletAddress = useRef<HTMLInputElement>(null);
 
     const navigate = useNavigate();
@@ -189,13 +189,13 @@ const WalletInformationPage: FC = () => {
                                 </label>
                                 <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" ref={ networkID } name="polygon" value="polygon" />
+                                        <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon" />
                                         <label className="form-check-label">
                                             Polygon
                                         </label>
                                     </div>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" ref={ networkID } name="polygon" value="polygon-mumbai" />
+                                        <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon-mumbai" />
                                         <label className="form-check-label">
                                             Polygon Mumbai
                                         </label>

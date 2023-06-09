@@ -30,7 +30,7 @@ const HomePageDescriptionSection: FC = () => {
                     Deep dive into collections, wallet information, and much more.</p>
                 <p> Enter the <b>public</b> address below (42-digit hex code) of a wallet to track activity. </p>
                 { alert ? <Alert type="danger" /> : null }
-                <form style={{ marginTop: '3rem' }} onSubmit={ (e) => formHandler(e) }>
+                <form style={{ marginTop: '3rem' }} onSubmit={ e => formHandler(e) }>
                     <input className="form-control" type="search" ref={ walletAddress } placeholder="Enter Wallet Address (0xasx352e3dedwdse4u5F...)" max="42" min="42" aria-label="Search" required />
                     <button className="btn btn-outline-success wallet-search-button" type="submit">Search &raquo;</button>
                 </form>

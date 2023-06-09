@@ -1,4 +1,4 @@
-import { FC, FormEvent, useRef, useState, ChangeEventHandler } from 'react';
+import { FC, FormEvent, useRef, useState } from 'react';
 import Alert from '../Alert/Alert';
 import { useNavigate } from 'react-router';
 import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
@@ -23,11 +23,6 @@ const ERC20TokenHoldingsPage: FC = () => {
         updateEmptyAlert(false);
         updateTokenHoldings(undefined);
         updateTokenTransfers(undefined);
-    }
-
-    const networkHandler = (e: ChangeEventHandler<HTMLInputElement>) : void => {
-        // When a selector is selected, update Button
-        updateNetworkID(e.toString());
     }
 
     const walletHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -104,13 +99,13 @@ const ERC20TokenHoldingsPage: FC = () => {
                             </label>
                             <div style={{ marginLeft: 'auto', marginRight: 'auto', width: "15%" }}>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="polygon" value="polygon" />
+                                    <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon" />
                                     <label className="form-check-label">
                                         Polygon
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="polygon" value="polygon-mumbai" />
+                                    <input className="form-check-input" type="radio" onChange={ e => updateNetworkID(e.target.value) } name="polygon" value="polygon-mumbai" />
                                     <label className="form-check-label">
                                         Polygon Mumbai
                                     </label>
