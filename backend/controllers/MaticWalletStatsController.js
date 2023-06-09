@@ -3,6 +3,7 @@ const axios = require('axios');
 const MORALIS_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.moralis_url;
 const MATIC_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.matic_url;
 const MATIC_MUMBAI_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.matic_mumbai_url;
+const COINGECKO_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.coingecko_url;
 
 const mod = "account";
 const action = "balance";
@@ -20,9 +21,18 @@ exports.MaticAddressDetails = (req, res) => {
             // Gather wallet analytics using API resources and running checks to see if wallet address is valid
             axios.get(MATIC_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.MATIC_API_KEY)
             .then(response => {
-                res.status(200).json({ 
-                    information: response.data 
-                });
+                axios.get(COINGECKO_URL + "/simple/price?ids=matic-network&vs_currencies=usd")
+                .then(coingeckoInformation => {
+                    res.status(200).json({
+                        balanceInformation: response.data,
+                        maticPrice: coingeckoInformation.data["matic-network"].usd
+                    });
+                })
+                .catch(err => {
+                    res.status(400).json({
+                        error: err
+                    });
+                })
             })
             .catch(err => {
                 res.status(400).json({ 
@@ -34,8 +44,17 @@ exports.MaticAddressDetails = (req, res) => {
             // Gather wallet analytics using API resources and running checks to see if wallet address is valid
             axios.get(MATIC_MUMBAI_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.MATIC_API_KEY)
             .then(response => 
-                res.status(200).json({ 
-                    information: response.data 
+                axios.get(COINGECKO_URL + "/simple/price?ids=matic-network&vs_currencies=usd")
+                .then(coingeckoInformation => {
+                    res.status(200).json({
+                        balanceInformation: response.data,
+                        maticPrice: coingeckoInformation.data["matic-network"].usd
+                    });
+                })
+                .catch(err => {
+                    res.status(400).json({
+                        error: err
+                    });
                 })
             )
             .catch(err => 
@@ -55,7 +74,7 @@ exports.MaticAddressTransactions = (req, res) => {
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
         .then(response => 
             res.status(200).json({ 
-                information: response.data, 
+                information: response.data
             })
         )
         .catch(err => 
@@ -70,7 +89,7 @@ exports.MaticAddressTransactions = (req, res) => {
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
         .then(response => 
             res.status(200).json({ 
-                information: response.data, 
+                information: response.data
             })
         )
         .catch(err => {
@@ -90,7 +109,7 @@ exports.MaticWalletInternalTransactions = (req, res) => {
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
         .then(response => 
             res.status(200).json({ 
-                information: response.data, 
+                information: response.data 
             })
         )
         .catch(err => 
@@ -105,7 +124,7 @@ exports.MaticWalletInternalTransactions = (req, res) => {
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
         .then(response => 
             res.status(200).json({ 
-                information: response.data, 
+                information: response.data 
             })
         )
         .catch(err => {

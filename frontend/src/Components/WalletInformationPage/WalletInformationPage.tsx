@@ -107,7 +107,7 @@ const WalletInformationPage: FC = () => {
                     updateAlert(false);
                 }
                 else {
-                    updateTransactions(response.data.information);
+                    updateAmount(response.data);
                     updateEmptyAlert(false);
                     updateAlert(false);
                 }

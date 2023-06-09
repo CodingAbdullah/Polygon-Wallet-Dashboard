@@ -67,7 +67,7 @@ const TransactionsResultsPage: FC = () => {
             // Get ETH price along with wallet balance information
             axios.post('http://localhost:5001/get-matic-wallet-transactions-balance-information', options)
             .then(response => {
-                updateWalletBalanceInformationState(response.data.information);  
+                updateWalletBalanceInformationState(response.data);  
             });
         }
     }, []);
