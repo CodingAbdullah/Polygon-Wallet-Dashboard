@@ -5,5 +5,5 @@ export interface WalletBalanceType {
         message: string,
         result: string
     },
-    ethPrice: number
+    maticPrice: number
 }

@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '../.env' });
 const MATIC_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.matic_url;
+const COINGECKO_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.coingecko_url;
 const axios = require('axios');
 
 const mod = "account";
@@ -16,8 +17,17 @@ exports.getAddressTransactionBalance = (req, res) => {
     
     axios.get(MATIC_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + API_KEY)
     .then(response => 
-        res.status(200).json({ 
-            information: response.data 
+        axios.get(COINGECKO_URL + "/simple/price?ids=matic-network&vs_currencies=usd")
+        .then(coingeckoInformation => {
+            res.status(200).json({
+                balanceInformation: response.data,
+                maticPrice: coingeckoInformation.data["matic-network"].usd
+            });
+        })
+        .catch(err => {
+            res.status(400).json({
+                error: err
+            });
         })
     )
     .catch(err => 
