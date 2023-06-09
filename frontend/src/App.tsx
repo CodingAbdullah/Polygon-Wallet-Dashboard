@@ -16,6 +16,7 @@ import WalletInformationPage from './Components/WalletInformationPage/WalletInfo
 import ERC20TokenHoldingsPage from './Components/ERC20TokenHoldingsPage/ERC20TokenHoldingsPage';
 import ERC721TokenHoldingsPage from './Components/ERC721TokenHoldingsPage/ERC721TokenHoldingsPage';
 import MaticPriceLookupPage from './Components/MaticPriceLookupPage/MaticPriceLookupPage';
+import TransactionsResultsPage from './Components/TransactionsResultsPage/TransactionResultsPage';
 
 const App: FC = () => {
   return (
@@ -35,6 +36,7 @@ const App: FC = () => {
           <Route path="/collections" element={<CollectionsSelectionPage />}></Route>
           <Route path="/gas-tracker" element={<GasPricePage />}></Route>
           <Route path="/matic-price-lookup" element={<MaticPriceLookupPage />}></Route>
+          <Route path="/wallet-analytics-result" element={<TransactionsResultsPage />}></Route>
           <Route path="/wallet-information-page" element={<WalletInformationPage />}></Route>
           <Route path="/" element={<HomePage />}></Route>
         </Routes>

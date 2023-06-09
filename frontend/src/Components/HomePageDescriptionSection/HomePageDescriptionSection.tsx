@@ -11,7 +11,7 @@ const HomePageDescriptionSection: FC = () => {
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        if (walletAddress.current?.value.length !== 42 || walletAddress.current.value.substring(0, 2) !== '0x'){
+        if (walletAddress.current?.value.length !== 42 || walletAddress.current?.value.substring(0, 2) !== '0x'){
             updateAlert(true);
         }
         else {

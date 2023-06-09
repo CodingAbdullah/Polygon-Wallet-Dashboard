@@ -110,7 +110,7 @@ const ERC20TokenHoldingsPage: FC = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="polygon-mumbai" value="polygon-mumbai" />
+                                    <input className="form-check-input" type="radio" name="polygon" value="polygon-mumbai" />
                                     <label className="form-check-label">
                                         Polygon Mumbai
                                     </label>
