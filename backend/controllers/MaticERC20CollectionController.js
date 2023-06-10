@@ -12,7 +12,7 @@ exports.getERC20CollectionInformation = (req, res) => {
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY
+            'X-API-KEY' : process.env.MORALIS_MATIC_API_KEY
         } 
     }
 
@@ -23,11 +23,11 @@ exports.getERC20CollectionInformation = (req, res) => {
             information: response.data
         })
     })
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({
             information: err
         })
-    );
+    });
 }    
 
 exports.getERC20CollectionTransfers = (req, res) => {
@@ -39,7 +39,7 @@ exports.getERC20CollectionTransfers = (req, res) => {
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY
+            'X-API-KEY' : process.env.MORALIS_MATIC_API_KEY
         } 
     }
 

@@ -2,9 +2,9 @@
 export interface ERC20CollectionTransferInformationType {
     cursor: string,
     result : {
-        from_wallet: string,
-        to_wallet: string,
-        contract_address: string,
+        from_address: string,
+        to_address: string,
+        address: string,
         block_hash: string,
         block_number: string,
         block_timestamp: string,

@@ -1,5 +1,9 @@
 // Creating a type for holding ERC20 Collection data
 export interface ERC20CollectionInformationType {
+    tokenName: string,
+    tokenSymbol: string,
+    tokenLogo: string,
+    tokenDecimals: string,
     nativePrice : {
         value: string,
         name: string,
@@ -8,5 +12,6 @@ export interface ERC20CollectionInformationType {
     },
     usdPrice: number,
     exchangeAddress: string,
-    exchangeName: string
+    exchangeName: string,
+    tokenAddress: string,
 }
