@@ -2,6 +2,8 @@ import { FormEvent, FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Alert from '../Alert/Alert';
 import axios from 'axios';
+import { ERC721LookupType } from '../../utils/types/ERC721LookupType';
+import { ERC721TransferLookupType } from '../../utils/types/ERC721LookupTransferType';
 
 const ERC721TokenLookupsPage: FC = () => {
     const tokenAddress = useRef<HTMLInputElement>(null); // Initialize ERC721 contract attributes
@@ -11,31 +13,68 @@ const ERC721TokenLookupsPage: FC = () => {
     const [setAlert, updateAlert] = useState(false);
     const [emptyAlert, updateEmptyAlert] = useState(false);
 
-    const [tokenData, updateTokenData] = useState({
-        information: null
-    });
-
-    const [tokenTransfers, updateTokenTransfers] = useState({
-        information: null
-    });
-    
-    const [tokenRarity, updateTokenRarity] = useState({
-        information: null
-    });
+    const [tokenLookupData, updateTokenLookupData] = useState<ERC721LookupType>();
+    const [tokenLookupTransferData, updateTokenLookupTransferData] = useState<ERC721TransferLookupType>();
 
     const navigate = useNavigate();
 
     const NODE_SERVER_URL = 'http://localhost:5001'; // API endpoints for ERC721 lookups
     const LOOKUP_ENDPOINT = '/erc721-lookup-by-id';
     const TRANSFER_LOOKUP_ENDPOINT = '/erc721-lookup-transfer-by-id';
-    const RARITY_LOOKUP_ENDPOINT = '/erc721-lookup-rarity-by-id';
 
     const clearHandler = () => {
-    
+        updateAlert(false);
+        updateEmptyAlert(false);
+        updateTokenLookupData(undefined);
+        updateTokenLookupTransferData(undefined);
     }
 
-    const tokenHandler = (e: FormEvent<HTMLFormElement>) => {
+    const formHandler = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
+        if (tokenAddress.current?.value.length === 42 && tokenAddress.current?.value.substring(0, 2) === '0x'){         
+            // Set configuration for request
+            let options = {
+                method: 'POST',
+                body: JSON.stringify({ address: tokenAddress.current!.value, network: networkID }),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }
+
+            axios.post(NODE_SERVER_URL + LOOKUP_ENDPOINT, options) // NFT endpoint for retrieving information related to holdings
+            .then(response => {
+                if (response.status !== 200){
+                    updateAlert(true);
+                    updateEmptyAlert(false);
+                    updateTokenLookupData(undefined);
+                }
+                else {
+                    updateAlert(false); // Remove alerts if any exist
+                    updateEmptyAlert(false);
+                    updateTokenLookupData(response.data.information);
+                }
+            });
+
+            axios.post(NODE_SERVER_URL + TRANSFER_LOOKUP_ENDPOINT, options)
+            .then(response => {
+                if (response.status !== 200){
+                    updateAlert(true);
+                    updateEmptyAlert(false);
+                    updateTokenLookupTransferData(undefined);
+                }
+                else {
+                    updateAlert(false); // Remove alerts if any exist
+                    updateEmptyAlert(false);
+                    updateTokenLookupTransferData(response.data.information);
+                    }
+                }
+            )
+        }
+        else {
+            updateAlert(true); // Set Alert
+            updateEmptyAlert(false); // Remove redundant alerts, and empty data
+        }
     }
 
     return (
@@ -45,8 +84,9 @@ const ERC721TokenLookupsPage: FC = () => {
                     <h2>ERC721 Token Lookup</h2>
                 </div>
                 { setAlert ? <Alert type="danger" /> : null }
+                { emptyAlert ? <Alert type="warning" /> : null }
                 <div className="jumbotron bg-light p-3">                    
-                    <form onSubmit={ tokenHandler }>
+                    <form onSubmit={ formHandler }>
                         <p style={{ marginRight: '0.5rem' }}>Enter <b>ERC721</b> Contract Address & <b>Token ID</b> for Lookup </p>
                         <input style={{ marginTop: '1rem' }} type="text" ref={ tokenAddress } placeholder="Enter ERC721 Contract Address" required />
                         <br />
@@ -72,7 +112,7 @@ const ERC721TokenLookupsPage: FC = () => {
                         <button style={{ marginTop: '2rem' }} type="submit" className="btn btn-success">Lookup</button>
                     </form>
                     <button style={{ marginTop: '2rem', display: 'inline' }} className='btn btn-primary' onClick={ () => navigate("/") }>Go Home</button>
-                    <button style={{ marginTop: '2rem', marginLeft: '2rem' }} className='btn btn-warning'>Clear</button>
+                    <button style={{ marginTop: '2rem', marginLeft: '2rem' }} className='btn btn-warning' onClick={ clearHandler }>Clear</button>
                 </div>
             </main>
         </div>

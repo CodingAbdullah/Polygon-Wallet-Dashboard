@@ -3,35 +3,42 @@ const MORALIS_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.m
 const axios = require('axios');
 
 exports.erc721SalesById = (req, res) => {
-    const { address, id } = JSON.parse(req.body.body); // Parse information for make API call
+    const { address, id, network } = JSON.parse(req.body.body); // Parse information for make API call
 
-    const params = {
-        "chain_id": "polygon",
-        "contract_address": address,
-        "token_id": id,
-    }
-    
-    const options = {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json',
-            'accept' : 'application/json',
-            'X-API-KEY' : process.env.TRANSPOSE_API_KEY_1
-        } 
-    }
-
-    // Make use of Transpose API to fetch NFT sales by id
-    axios.get("https://api.transpose.io/nft/sales-by-token-id?" + new URLSearchParams(params), options)
-    .then(response => {
+    if (network === 'polygon-mumbai') {
         res.status(200).json({
-            information: response.data
+            information: null
         });
-    })
-    .catch(err => {
-        res.status(400).json({
-            information: err
+    }
+    else {
+        const params = {
+            "chain_id": 'polygon',
+            "contract_address": address,
+            "token_id": id
+        }
+        
+        const options = {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'accept' : 'application/json',
+                'X-API-KEY' : process.env.MATIC_TRANSPOSE_API_KEY
+            } 
+        }
+    
+        // Make use of Transpose API to fetch NFT sales by id
+        axios.get("https://api.transpose.io/nft/sales-by-token-id?" + new URLSearchParams(params), options)
+        .then(response => {
+            res.status(200).json({
+                information: response.data
+            });
+        })
+        .catch(err => {
+            res.status(400).json({
+                information: err
+            });
         });
-    });
+    }
 }
 
 exports.erc721TokenLookup = (req, res) => {
@@ -44,7 +51,7 @@ exports.erc721TokenLookup = (req, res) => {
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY
+            'X-API-KEY' : process.env.MORALIS_MATIC_API_KEY
         } 
     }
 
@@ -73,7 +80,7 @@ exports.erc721TokenTransferLookup = (req, res) => {
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY
+            'X-API-KEY' : process.env.MORALIS_MATIC_API_KEY
         }
     }
 
