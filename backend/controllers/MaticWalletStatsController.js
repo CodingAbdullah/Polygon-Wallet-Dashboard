@@ -7,7 +7,6 @@ const COINGECKO_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER
 
 const mod = "account";
 const action = "balance";
-const tag = "latest";
 const startBlock = 0;
 const endBlock = 99999999;
 const page = 1;
@@ -19,7 +18,7 @@ exports.MaticAddressDetails = (req, res) => {
         
         if (network === 'polygon') {
             // Gather wallet analytics using API resources and running checks to see if wallet address is valid
-            axios.get(MATIC_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.MATIC_API_KEY)
+            axios.get(MATIC_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&apikey=" + process.env.MATIC_API_KEY)
             .then(response => {
                 axios.get(COINGECKO_URL + "/simple/price?ids=matic-network&vs_currencies=usd")
                 .then(coingeckoInformation => {
@@ -42,7 +41,7 @@ exports.MaticAddressDetails = (req, res) => {
         }
         else {
             // Gather wallet analytics using API resources and running checks to see if wallet address is valid
-            axios.get(MATIC_MUMBAI_URL + "?module=" + mod + "&action=" + action + "&address=" + address + "&tag=" + tag + "&apikey=" + process.env.MATIC_API_KEY)
+            axios.get(MATIC_MUMBAI_URL + "?module=" + mod + "&action=" + action + "&address=" + address  + "&apikey=" + process.env.MATIC_API_KEY)
             .then(response => 
                 axios.get(COINGECKO_URL + "/simple/price?ids=matic-network&vs_currencies=usd")
                 .then(coingeckoInformation => {
@@ -57,11 +56,11 @@ exports.MaticAddressDetails = (req, res) => {
                     });
                 })
             )
-            .catch(err => 
+            .catch(err => {
                 res.status(400).json({ 
                     information: err 
-                })
-            );  
+                });
+            });  
         }
     }
 
@@ -72,26 +71,26 @@ exports.MaticAddressTransactions = (req, res) => {
         // Transactions of a particular account, if the address of the particular one entered is valid
         axios.get(MATIC_URL + '?module=' + mod + "&action=txlist&address=" + address + "&startblock=" + startBlock 
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
-        .then(response => 
+        .then(response => {
             res.status(200).json({ 
                 information: response.data
-            })
-        )
-        .catch(err => 
+            });
+        })
+        .catch(err => {
             res.status(400).json({ 
                 information: err 
-            })
-        );
+            });
+        });
     }
     else {
         // Transactions of a particular account, if the address of the particular one entered is valid
         axios.get(MATIC_MUMBAI_URL + '?module=' + mod + "&action=txlist&address=" + address + "&startblock=" + startBlock 
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
-        .then(response => 
+        .then(response => {
             res.status(200).json({ 
                 information: response.data
-            })
-        )
+            });
+        })
         .catch(err => {
             res.status(400).json({ 
                 information: err 
@@ -107,26 +106,26 @@ exports.MaticWalletInternalTransactions = (req, res) => {
         // Transactions of a particular account, if the address of the particular one entered is valid
         axios.get(MATIC_URL + '?module=' + mod + "&action=txlistinternal&address=" + address + "&startblock=" + startBlock 
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
-        .then(response => 
+        .then(response => {
             res.status(200).json({ 
                 information: response.data 
-            })
-        )
-        .catch(err => 
+            });
+        })
+        .catch(err => {
             res.status(400).json({ 
                 information: err 
-            })
-        );
+            });
+        });
     }
     else {
         // Transactions of a particular account, if the address of the particular one entered is valid
         axios.get(MATIC_MUMBAI_URL + '?module=' + mod + "&action=txlistinternal&address=" + address + "&startblock=" + startBlock 
         + '&endblock=' + endBlock + "&page=" + page + "&offset=" + 1000 + "&sort=" + sort + "&apikey=" + process.env.MATIC_API_KEY)
-        .then(response => 
+        .then(response => {
             res.status(200).json({ 
                 information: response.data 
-            })
-        )
+            });
+        })
         .catch(err => {
             res.status(400).json({ 
                 information: err 
@@ -153,7 +152,7 @@ exports.MaticERC20Holdings = (req, res) => {
     axios.get(MORALIS_URL + address + ERC20TOKEN_ENDPOINT, options)
     .then(response => { 
         res.status(200).json({ 
-            information: response.data 
+            holdings: response.data 
         });
     })
     .catch(err => {
@@ -188,5 +187,5 @@ exports.MaticERC721Holdings = (req, res) => {
         res.status(400).json({
             information: err
         });
-    })
+    });
 }

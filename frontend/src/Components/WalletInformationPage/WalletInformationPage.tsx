@@ -5,7 +5,6 @@ import Alert from '../Alert/Alert';
 import WalletBalanceSection from '../WalletBalanceSection/WalletBalanceSection';
 import WalletTransactionsInfoTable from '../WalletTransactionsInfoTable/WalletTransactionsInfoTable';
 import WalletInternalTransactionsInfoTable from '../WalletInternalTransactionsInfoTable/WalletInternalTransactionsInfoTable';
-import { PriceType } from '../../utils/types/PriceType';
 import { WalletTransactionType } from '../../utils/types/WalletTransactionType';
 import { WalletInternalTransactionType } from '../../utils/types/InternalTransactionType';
 import { ERC20HoldingType } from '../../utils/types/ERC20HoldingType';
@@ -18,8 +17,6 @@ const WalletInformationPage: FC = () => {
     const [setAlert, updateAlert] = useState<boolean>(false);
     const [setEmptyAlert, updateEmptyAlert] = useState<boolean>(false);
     const [amount, updateAmount] = useState<WalletBalanceType>();
-    const [ethPrice, updateEthPrice] = useState<PriceType>();
-    const [maticPrice, updateMaticPrice] = useState<PriceType>();
     const [transactions, updateTransactions] = useState<WalletTransactionType>();
     const [internalTransactions, updateInternalTransactions] = useState<WalletInternalTransactionType>();
     const [ERC20Holdings, updateERC20Holdings] = useState<ERC20HoldingType>();
@@ -32,9 +29,6 @@ const WalletInformationPage: FC = () => {
 
     // Endpoints and URLs
     const NODE_SERVER_URL = 'http://localhost:5001';
-    const COIN_GECKO_URL = "https://api.coingecko.com/api/v3";
-    const QUERY_STRING_ETHEREUM = "?ids=ethereum&vs_currencies=usd&include_24hr_change=true";
-    const QUERY_STRING_MATIC_NETWORK = "?ids=matic-network&vs_currencies=usd&include_24hr_change=true";
 
     const MATIC_ADDRESS_DETAILS_ENDPOINT = "/get-matic-wallet-information";
     const MATIC_ADDRESS_TRANSACTIONS_ENDPOINT = '/get-matic-wallet-transactions';
@@ -42,21 +36,10 @@ const WalletInformationPage: FC = () => {
     const MATIC_ADDRESS_ERC20_HOLDINGS_ENDPOINT = "/get-matic-wallet-erc20-holdings";
     const MATIC_ADDRESS_ERC721_HOLDINGS_ENDPOINT = "/get-matic-wallet-erc721-holdings";
 
-    const alertHandler = () => { 
-        // Clear data upon error
-        updateAmount(undefined);
-        updateEthPrice(undefined);
-        updateMaticPrice(undefined);
-        updateTransactions(undefined);
-        updateERC20Holdings(undefined);
-        updateERC721Holdings(undefined);
-    }
-
     const clearHandler = () => {
         // Clear values upon User clear button selection
         updateAmount(undefined);
-        updateEthPrice(undefined);
-        updateMaticPrice(undefined);
+        updateInternalTransactions(undefined);
         updateTransactions(undefined);
         updateERC20Holdings(undefined);
         updateERC721Holdings(undefined);
@@ -66,51 +49,31 @@ const WalletInformationPage: FC = () => {
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Prevent abnormal form submission
+        clearHandler();
 
         if (walletAddress.current?.value.length !== 42 || walletAddress.current?.value.substring(0, 2) !== '0x') {
             updateAlert(true);
+            updateEmptyAlert(false);
         }
         else {
             updateAlert(false);
+            updateEmptyAlert(false);
             
             // Adding Options to Request Body
             let options = {
                 method: 'POST',
-                body: JSON.stringify({ walletAddress: walletAddress.current?.value }),
+                body: JSON.stringify({ address: walletAddress.current!.value, network: networkID }),
                 headers: {
                     'content-type' : 'application/json'
                 }
             }
 
-            // Fetch Coin Prices and their Respective Price Changes
-            axios.get(COIN_GECKO_URL + QUERY_STRING_ETHEREUM)
-            .then(response => {
-                updateEthPrice(response.data);
-            })
-            .catch(() => {
-                updateAlert(true);
-            });
-
-            axios.get(COIN_GECKO_URL + QUERY_STRING_MATIC_NETWORK)
-            .then(response => {
-                updateMaticPrice(response.data);
-            })
-            .catch(() => {
-                updateAlert(true);
-            });
-
             // Requesting Wallet Information
             axios.post(NODE_SERVER_URL + MATIC_ADDRESS_DETAILS_ENDPOINT, options)
             .then(response => {
-                if (response.data.information.result === 0) {
-                    updateEmptyAlert(true);
-                    updateAlert(false);
-                }
-                else {
-                    updateAmount(response.data);
-                    updateEmptyAlert(false);
-                    updateAlert(false);
-                }
+                updateAmount(response.data);
+                updateEmptyAlert(false);
+                updateAlert(false);
             });
 
             // Requesting List of Transactions
@@ -144,16 +107,10 @@ const WalletInformationPage: FC = () => {
             // List of Wallet ERC20 Holdings
             axios.post(NODE_SERVER_URL + MATIC_ADDRESS_ERC20_HOLDINGS_ENDPOINT, options)
             .then(response => {
-                if (response.data.information.length === 0) {
-                    updateEmptyAlert(true);
-                    updateAlert(false);
-                }
-                else {
-                    updateERC20Holdings(response.data.information);
-                    updateEmptyAlert(false);
-                    updateAlert(false);
-                }
-            });
+                updateERC20Holdings(response.data);
+                updateEmptyAlert(false);
+                updateAlert(false);
+            }); 
 
             // List of Wallet ERC721 Holdings
             axios.post(NODE_SERVER_URL + MATIC_ADDRESS_ERC721_HOLDINGS_ENDPOINT, options)
@@ -178,7 +135,7 @@ const WalletInformationPage: FC = () => {
                     <h2 className="h2">Wallet Analytics</h2>
                 </div>
                 { setAlert ? <Alert type='danger' /> : null }
-                    <div className="jumbotron">
+                    <div className="jumbotron p-3">
                         <div className="container bg-light p-3">
                             <p>Enter <b>Wallet Address</b> of your choice for information</p>
                             <form onSubmit={ formHandler }>
@@ -209,35 +166,35 @@ const WalletInformationPage: FC = () => {
                     </div>  
             </main>
             {
-                transactions === undefined || setEmptyAlert || setAlert ? null : 
+                amount === undefined || setEmptyAlert || setAlert ? null : 
                 <WalletBalanceSection data={ amount! } address={ walletAddress.current!.value } />
             }
             {
                 transactions === undefined || setEmptyAlert || setAlert ? null :
                     <>
-                        <main style={{ marginTop: '5rem' }} role="main">
+                        <main style={{ marginTop: '5rem' }} className="p-3" role="main">
                             <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h3 className="h3">Transactions (Limited to 1000)</h3>
                             </div>
+                            <WalletTransactionsInfoTable address={ walletAddress.current!.value } data={ transactions! } /> 
                         </main>
-                        <WalletTransactionsInfoTable address={ walletAddress.current!.value } data={ transactions! } /> 
                     </>
             }            
             {
                 internalTransactions === undefined || setEmptyAlert || setAlert ? null :
                     <>
-                        <main style={{ marginTop: '5rem' }} role="main">
+                        <main style={{ marginTop: '5rem' }} className="p-3" role="main">
                             <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h3 className="h3">Internal Transactions</h3>
                             </div>
+                            <WalletInternalTransactionsInfoTable address={ walletAddress.current!.value } data={ internalTransactions! } /> 
                         </main>
-                        <WalletInternalTransactionsInfoTable address={ walletAddress.current!.value } data={ internalTransactions! } /> 
                     </>
             }
             {
                 ERC20Holdings === undefined || setEmptyAlert || setAlert ? null :
                     <>
-                        <main style={{ marginTop: '5rem' }} role="main">
+                        <main style={{ marginTop: '5rem' }} className="p-3" role="main">
                             <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h3 className="h3">ERC20 Holdings</h3>
                             </div>
@@ -248,12 +205,12 @@ const WalletInformationPage: FC = () => {
             {
                 ERC721Holdings === undefined || setEmptyAlert || setAlert ? null :
                     <>
-                        <main style={{ marginTop: '5rem' }} role="main">
+                        <main style={{ marginTop: '5rem' }} className="p-3" role="main">
                             <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h3 className="h3">ERC721 Holdings</h3>
                             </div>
+                            <ERC721HoldingsInfoTable data={ ERC721Holdings! } /> 
                         </main>
-                        <ERC721HoldingsInfoTable data={ ERC721Holdings! } /> 
                     </>
             }
         </div>

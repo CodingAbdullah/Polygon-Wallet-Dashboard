@@ -7,5 +7,5 @@ router.post("/get-matic-wallet-information", MaticWalletStatsController.MaticAdd
 router.post("/get-matic-wallet-transactions", MaticWalletStatsController.MaticAddressTransactions);
 router.post("/get-matic-wallet-erc20-holdings", MaticWalletStatsController.MaticERC20Holdings);
 router.post("/get-matic-wallet-erc721-holdings", MaticWalletStatsController.MaticERC721Holdings);
-router.post("//get-matic-wallet-internal-transactions", MaticWalletStatsController.MaticWalletInternalTransactions)
+router.post("/get-matic-wallet-internal-transactions", MaticWalletStatsController.MaticWalletInternalTransactions);
 module.exports = router;
