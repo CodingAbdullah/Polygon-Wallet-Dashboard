@@ -21,15 +21,15 @@ const ERC721LookupsInfoTable = (props : { data: ERC721LookupType }) => {
                     <tbody>
                         { // Formatting the table rows to show data
                             <tr>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.name }</td>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.symbol }</td>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.owner_of }</td>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.token_address }</td>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.token_id }</td>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.contract_type }</td>
-                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.lookupInformation.amount }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.name }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.symbol }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.owner_of }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.token_address }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.token_id }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.contract_type }</td>
+                                <td style={{ border: '1px solid black', fontSize: '11px' }}>{ data.amount }</td>
                                 <td style={{ border: '1px solid black', fontSize: '11px' }}>
-                                    <a href={"https://opensea.io/assets/matic/" + data.lookupInformation.token_address + "/" + data.lookupInformation.token_id } target="_blank" rel="noreferrer">ERC721 Link</a>
+                                    <a href={"https://opensea.io/assets/matic/" + data.token_address + "/" + data.token_id } target="_blank" rel="noreferrer">ERC721 Link</a>
                                 </td>
                             </tr>
                         }   

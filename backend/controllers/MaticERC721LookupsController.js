@@ -55,18 +55,18 @@ exports.erc721TokenLookup = (req, res) => {
         } 
     }
 
-    // Get ERC721 Token information by id
+    // Get ERC721 Token information by ID
     axios.get(MORALIS_URL + 'nft/' + address + "/" + id + "?chain=" + refinedNetwork + "&format=decimal", options)
-    .then(response => 
+    .then(response => {
         res.status(200).json({ 
             information: response.data 
-        })
-    )
-    .catch(err => 
+        });
+    })
+    .catch(err => {
         res.status(400).json({ 
-            information: err 
-        })
-    );
+            information: err.response.data.message
+        });
+    });
 }
 
 exports.erc721TokenTransferLookup = (req, res) => {
@@ -84,16 +84,16 @@ exports.erc721TokenTransferLookup = (req, res) => {
         }
     }
 
-    // Get ERC721 Token transfers information by id
+    // Get ERC721 Token Transfers information by ID
     axios.get(MORALIS_URL + 'nft/' + address + "/" + id + LOOKUP_ENDPOINT + "?chain=" + refinedNetwork + "&format=decimal&direction=both", options)
-    .then(response => 
+    .then(response => {
         res.status(200).json({ 
             information: response.data 
-        })
-    )
-    .catch(err => 
+        });
+    })
+    .catch(err => {
         res.status(400).json({ 
             information: err 
-        })
-    );
+        });
+    });
 }

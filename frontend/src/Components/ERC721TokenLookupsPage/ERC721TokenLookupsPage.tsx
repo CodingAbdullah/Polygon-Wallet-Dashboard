@@ -4,13 +4,15 @@ import Alert from '../Alert/Alert';
 import axios from 'axios';
 import { ERC721LookupType } from '../../utils/types/ERC721LookupType';
 import { ERC721TransferLookupType } from '../../utils/types/ERC721LookupTransferType';
+import ERC721LookupsInfoTable from '../ERC721LookupsInfoTable/ERC721LookupsInfoTable';
+import ERC721TransferLookupsInfoTable from '../ERC721LookupsTransferInfoTable/ERC721LookupsTransferInfoTable';
 
 const ERC721TokenLookupsPage: FC = () => {
     const tokenAddress = useRef<HTMLInputElement>(null); // Initialize ERC721 contract attributes
     const tokenId = useRef<HTMLInputElement>(null);
     const [networkID, updateNetworkID] = useState<string>('polygon'); // Network selector set to default value
 
-    const [setAlert, updateAlert] = useState(false);
+    const [alert, updateAlert] = useState(false);
     const [emptyAlert, updateEmptyAlert] = useState(false);
 
     const [tokenLookupData, updateTokenLookupData] = useState<ERC721LookupType>();
@@ -19,8 +21,8 @@ const ERC721TokenLookupsPage: FC = () => {
     const navigate = useNavigate();
 
     const NODE_SERVER_URL = 'http://localhost:5001'; // API endpoints for ERC721 lookups
-    const LOOKUP_ENDPOINT = '/erc721-lookup-by-id';
-    const TRANSFER_LOOKUP_ENDPOINT = '/erc721-lookup-transfer-by-id';
+    const LOOKUP_ENDPOINT = '/matic-erc721-lookup-information';
+    const TRANSFER_LOOKUP_ENDPOINT = '/matic-erc721-transfers-lookup';
 
     const clearHandler = () => {
         updateAlert(false);
@@ -32,11 +34,11 @@ const ERC721TokenLookupsPage: FC = () => {
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (tokenAddress.current?.value.length === 42 && tokenAddress.current?.value.substring(0, 2) === '0x'){         
+        if (tokenAddress.current?.value.length === 42 && tokenAddress.current?.value.substring(0, 2) === '0x' && tokenId.current?.value !== undefined){         
             // Set configuration for request
             let options = {
                 method: 'POST',
-                body: JSON.stringify({ address: tokenAddress.current!.value, network: networkID }),
+                body: JSON.stringify({ address: tokenAddress.current!.value, id: tokenId.current!.value, network: networkID }),
                 headers: {
                     'content-type': 'application/json'
                 }
@@ -44,32 +46,27 @@ const ERC721TokenLookupsPage: FC = () => {
 
             axios.post(NODE_SERVER_URL + LOOKUP_ENDPOINT, options) // NFT endpoint for retrieving information related to holdings
             .then(response => {
-                if (response.status !== 200){
-                    updateAlert(true);
-                    updateEmptyAlert(false);
-                    updateTokenLookupData(undefined);
-                }
-                else {
-                    updateAlert(false); // Remove alerts if any exist
-                    updateEmptyAlert(false);
-                    updateTokenLookupData(response.data.information);
-                }
+                updateAlert(false); // Remove alerts if any exist
+                updateEmptyAlert(false);
+                updateTokenLookupData(response.data.information);
+            })
+            .catch(() => {
+                updateEmptyAlert(true);
+                updateAlert(false);
             });
 
             axios.post(NODE_SERVER_URL + TRANSFER_LOOKUP_ENDPOINT, options)
             .then(response => {
-                if (response.status !== 200){
-                    updateAlert(true);
-                    updateEmptyAlert(false);
-                    updateTokenLookupTransferData(undefined);
-                }
-                else {
-                    updateAlert(false); // Remove alerts if any exist
-                    updateEmptyAlert(false);
-                    updateTokenLookupTransferData(response.data.information);
+                    if (response.data.information.result.length === 0){
+                        updateEmptyAlert(true);
+                        updateAlert(false);
                     }
-                }
-            )
+                    else {
+                        updateAlert(false); // Remove alerts if any exist
+                        updateEmptyAlert(false);
+                        updateTokenLookupTransferData(response.data.information);
+                    }
+            });
         }
         else {
             updateAlert(true); // Set Alert
@@ -83,7 +80,7 @@ const ERC721TokenLookupsPage: FC = () => {
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h2>ERC721 Token Lookup</h2>
                 </div>
-                { setAlert ? <Alert type="danger" /> : null }
+                { alert ? <Alert type="danger" /> : null }
                 { emptyAlert ? <Alert type="warning" /> : null }
                 <div className="jumbotron bg-light p-3">                    
                     <form onSubmit={ formHandler }>
@@ -115,6 +112,41 @@ const ERC721TokenLookupsPage: FC = () => {
                     <button style={{ marginTop: '2rem', marginLeft: '2rem' }} className='btn btn-warning' onClick={ clearHandler }>Clear</button>
                 </div>
             </main>
+            { 
+                 ( emptyAlert === true || alert === true ) ? null : 
+                    <>
+                        <main style={{ marginTop: '-3rem' }} className="p-3" role="main">
+                                <div>
+                                    {
+                                        tokenLookupData === undefined ? null :
+                                            <>
+                                                <main style={{ marginTop: '5rem' }} role="main">
+                                                    <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                                        <h3 className="h3">ERC-721 Token Lookup Data</h3>
+                                                    </div>
+                                                </main>
+                                                <ERC721LookupsInfoTable data={ tokenLookupData } />
+                                            </>
+                                    }
+                                </div>
+                        </main>
+                        <main style={{ marginTop: '2rem' }} className="p-3" role="main">
+                            <div>
+                                {
+                                    tokenLookupTransferData === undefined || tokenLookupTransferData.result.length === 0 ? null :
+                                        <>
+                                            <main style={{ marginTop: '5rem' }} role="main">
+                                                <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                                    <h3 className="h3">ERC-721 Token Transfers Lookup</h3>
+                                                </div>
+                                            </main>
+                                            <ERC721TransferLookupsInfoTable data={ tokenLookupTransferData } />
+                                        </>
+                                }
+                            </div>
+                        </main>
+                    </>
+            }
         </div>
     )
 }
