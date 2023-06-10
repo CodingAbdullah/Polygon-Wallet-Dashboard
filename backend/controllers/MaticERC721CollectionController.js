@@ -1,6 +1,5 @@
 require('dotenv').config({ path: '../.env'});
 const MORALIS_URL = require('../utils/constants/NetworkMapper').NETWORK_MAPPER.moralis_url;
-const sdk = require('api')('@alchemy-docs/v1.0#g8jd0e2nlfjuombt'); // SDK ID for Alchemy package found through docs
 const axios = require('axios');
 
 exports.getERC721CollectionData = (req, res) => {
@@ -10,7 +9,7 @@ exports.getERC721CollectionData = (req, res) => {
         method: 'GET',
         headers: {
             'content-type' : 'application/json', 
-            'x-api-key' : process.env.MORALIS_API_KEY
+            'x-api-key' : process.env.MORALIS_MATIC_API_KEY
         }
     };
 
@@ -21,11 +20,11 @@ exports.getERC721CollectionData = (req, res) => {
             information: response.data 
         })
     )
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({ 
             information: err 
-        })
-    );
+        });
+    });
 }
 
 exports.getERC721CollectionTransfers = (req, res) => {
@@ -36,7 +35,7 @@ exports.getERC721CollectionTransfers = (req, res) => {
         method: 'GET',
         headers: {
             'content-type' : 'application/json',
-            'x-api-key' : process.env.MORALIS_API_KEY 
+            'x-api-key' : process.env.MORALIS_MATIC_API_KEY 
         }
     };
 
@@ -47,11 +46,11 @@ exports.getERC721CollectionTransfers = (req, res) => {
             information: response.data 
         })
     )
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({ 
             information: err 
-        })
-    );
+        });
+    });
 }
 
 exports.getERC721CollectionSales = (req, res) => {
@@ -62,7 +61,7 @@ exports.getERC721CollectionSales = (req, res) => {
         method: 'GET',
         headers: {
             'content-type' : 'application/json',
-            'x-api-key' : process.env.MORALIS_API_KEY 
+            'x-api-key' : process.env.MORALIS_MATIC_API_KEY 
         }
     };
 
@@ -73,29 +72,26 @@ exports.getERC721CollectionSales = (req, res) => {
             information: response.data 
         })
     )
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({ 
             information: err 
-        })
-    );
+        });
+    });
 }
 
 exports.getERC721CollectionAttributes = (req, res) => {
     const { address } = JSON.parse(req.body.body);
     
-    // Get summary of collection attributes
-    sdk.summarizeNFTAttributes({ 
-        contractAddress: address, 
-        apiKey: process.env.ALCHEMY_API_KEY_2 
-    })
+    // Make use of the axios library and hardcord URL for request, no need to use Alchemy's SDK here
+    axios.get("https://polygon-mainnet.g.alchemy.com/nft/v2/" + process.env.MATIC_ALCHEMY_API_KEY + "/summarizeNFTAttributes?contractAddress=" + address)
     .then(response => { 
         res.status(200).json({ 
-            information: response 
+            information: response.data
         });
     })
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({ 
             information: err 
-        })
-    );
+        });
+    });
 }

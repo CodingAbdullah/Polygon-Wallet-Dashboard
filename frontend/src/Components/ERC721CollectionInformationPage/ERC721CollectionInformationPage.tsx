@@ -23,7 +23,7 @@ const ERC20CollectionInformationPage: FC = () => {
     const [collectionTransfers, updateCollectionTransfers] = useState<ERC721CollectionTransferInformationType>();
     const [collectionAttributes, updateCollectionAttributes] = useState<ERC721CollectionAttributesType>();
     const [collectionSales, updateCollectionSales] = useState<ERC721CollectionSalesInformationType>();
-    const [setAlert, updateAlert] = useState<boolean>(false);
+    const [alert, updateAlert] = useState<boolean>(false);
     const tokenAddress = useRef<HTMLInputElement>(null);
 
     const navigate = useNavigate();
@@ -93,7 +93,7 @@ const ERC20CollectionInformationPage: FC = () => {
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 className="h2">ERC721 Token Analytics</h1>
                 </div>
-                { setAlert ? <Alert type='danger' /> : null }
+                { alert ? <Alert type='danger' /> : null }
                 <div className="jumbotron bg-light p-3">
                     <div className="container">
                         <p>Enter Contract Address of the <b>ERC721</b> Collection for Additional Information</p>
@@ -122,7 +122,7 @@ const ERC20CollectionInformationPage: FC = () => {
                         <>
                             <main style={{ marginTop: '3rem' }} className="p-3" role="main">
                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                                    <h3 className="h3">Sample Collection Data</h3>
+                                    <h3 className="h3">Collection Data</h3>
                                 </div>
                             </main>
                             <ERC721CollectionInfoTable data={ collectionInformation } />
@@ -146,7 +146,7 @@ const ERC20CollectionInformationPage: FC = () => {
                         <>
                             <main style={{ marginTop: '3rem' }} className="p-3" role="main">
                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                                    <h3 className="h3">Sample Collection Transfer Data</h3>
+                                    <h3 className="h3">Collection Transfer Data</h3>
                                 </div>
                             </main>
                             <ERC721CollectionTransferInfoTable data={ collectionTransfers! } />
