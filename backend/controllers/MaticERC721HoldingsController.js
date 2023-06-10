@@ -13,7 +13,7 @@ exports.getAddressTokenHoldings = (req, res) => {
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY
+            'X-API-KEY' : process.env.MORALIS_MATIC_API_KEY
         } 
     }
 
@@ -24,11 +24,11 @@ exports.getAddressTokenHoldings = (req, res) => {
             information: response.data
         });
     })
-    .catch(err => 
+    .catch(err => {        
         res.status(400).json({
             information: err
-        })
-    );
+        });
+    });
 }   
 
 exports.getAddressTokenTransfers = (req, res) => { 
@@ -42,7 +42,7 @@ exports.getAddressTokenTransfers = (req, res) => {
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY
+            'X-API-KEY' : process.env.MORALIS_MATIC_API_KEY
         } 
     }
 
@@ -52,9 +52,9 @@ exports.getAddressTokenTransfers = (req, res) => {
             information: response.data
         });
     })
-    .catch(err => 
+    .catch(err => {
         res.status(400).json({
             information: err
-        })
-    );
+        });
+    });
 }   

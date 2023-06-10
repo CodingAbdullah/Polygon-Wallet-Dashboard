@@ -10,7 +10,7 @@ const ERC20TokenHoldingsInfoTable = (props : { data: ERC20HoldingType }) => {
                 <thead style={{ border: '1px solid black' }}>
                     <tr style={{ border: '1px solid black' }}>
                         <th style={{ border: '1px solid black' }} scope="col">Contract Address</th>
-                        <th style={{ border: '1px solid black' }} scope="col">Token Balance</th>
+                        <th style={{ border: '1px solid black' }} scope="col">Token Balance (Wei)</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,6 +1,8 @@
 import { FC, FormEvent, useRef, useState } from 'react';
 import ERC721HoldingsInfoTable from '../ERC721HoldingsInfoTable/ERC721HoldingsInfoTable';
 import ERC721TransfersInfoTable from '../ERC721TransfersInfoTable/ERC721TransfersInfoTable';
+import { ERC721HoldingType } from '../../utils/types/ERC721HoldingType';
+import { ERC721TransferType } from '../../utils/types/ERC721TransferType';
 import { useNavigate } from "react-router";
 import Alert from '../Alert/Alert';
 import axios from 'axios';
@@ -10,21 +12,12 @@ const ERC721TokenHoldingsPage: FC = () => {
     const [alert, updateAlert] = useState<boolean>(false);
     const [emptyAlert, updateEmptyAlert] = useState<boolean>(false);
     const [networkID, updateNetworkID] = useState<string>('polygon');
-
-    const [nftData, updateNFTData] = useState({
-        information: null
-    });
-
-    const [ERC721Transfers, updateERC721Transfers] = useState({
-        information: null
-    });
+    const [erc721HoldingData, updateERC721HoldingData] = useState<ERC721HoldingType>();
+    const [erc721TransferData, updateERC721TransferData] = useState<ERC721TransferType>();
 
     const NODE_SERVER_URL = "http://localhost:5001"; // Modifying end points for the backend server
-    const NFT_ENDPOINT = '/address-erc721-holdings';
-    const NFT_TRANSFERS_ENDPOINT = '/address-erc721-transfers';
-
-    // const [erc721HoldingData, updateERC721HoldingData] = useState<ERC721HoldingType>();
-    // const [erc721TransferData, updateERC721TransferData] = useState<ERC721TransferType>();
+    const NFT_ENDPOINT = '/matic-erc721-holdings';
+    const NFT_TRANSFERS_ENDPOINT = '/matic-erc721-transfers';
 
     const address = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
@@ -33,100 +26,68 @@ const ERC721TokenHoldingsPage: FC = () => {
     const clearHandler = () => {
         updateAlert(false);
         updateEmptyAlert(false);
-        // updateERC721HoldingData(undefined);
-        // updateERC721TransferData(undefined);
+        updateERC721HoldingData(undefined);
+        updateERC721TransferData(undefined);
     }
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Set configuration for request
-        let options = {
-            method: 'POST',
-            body: JSON.stringify({ address: address.current?.value, network: networkID }),
-            headers: {
-                'content-type': 'application/json'
+        if (address.current?.value.length === 42 && address.current?.value.substring(0, 2) === '0x'){         
+            // Set configuration for request
+            let options = {
+                method: 'POST',
+                body: JSON.stringify({ address: address.current!.value, network: networkID }),
+                headers: {
+                    'content-type': 'application/json'
+                }
             }
-        }
 
-        if (address.current!.value.length === 42 && address.current!.value.substring(0, 2) === '0x'){
-            if (networkID === 'kovan' || networkID === 'rinkeby' || networkID === 'ropsten') {
-                // Set alerts for networks not available
-                updateEmptyAlert(true);
-            }
-            else {
-                axios.post(NODE_SERVER_URL + NFT_ENDPOINT, options) // NFT endpoint for retrieving information related to holdings
-                .then(response => {
-                    if (response.status !== 200){
-                        updateAlert(true);
+            axios.post(NODE_SERVER_URL + NFT_ENDPOINT, options) // NFT endpoint for retrieving information related to holdings
+            .then(response => {
+                if (response.status !== 200){
+                    updateAlert(true);
+                    updateEmptyAlert(false);
+                    updateERC721HoldingData(undefined);
+                }
+                else {
+                    if (response.status === 200 && response.data.information.result.length === 0){ // If empty, display warning
+                        updateEmptyAlert(true);
+                        updateAlert(false);
+                        updateERC721HoldingData(undefined);
+                    }
+                    else {
+                        updateAlert(false); // Remove alerts if any exist
                         updateEmptyAlert(false);
-                        updateNFTData((prevState) => {
-                            return {
-                                ...prevState,
-                                information: null
-                            }
-                        });
+                        updateERC721HoldingData(response.data.information);
+                    }
+                }
+            })
+
+            axios.post(NODE_SERVER_URL + NFT_TRANSFERS_ENDPOINT, options)
+            .then(response => {
+                if (response.status !== 200){
+                    updateAlert(true);
+                    updateEmptyAlert(false);
+                    updateERC721TransferData(undefined);
+                }
+                else {
+                    if (response.status === 200 && response.data.information.result.length === 0){ // If empty, keep state to null
+                        updateEmptyAlert(true);
+                        updateAlert(false);
+                        updateERC721TransferData(undefined);
                     }
                     else {
-                        if (response.status === 200 && response.data.information.total === 0){ // If empty, display warning
-                            updateEmptyAlert(true);
-                            updateAlert(false);
-                            updateNFTData((prevState) => {
-                                return {
-                                    ...prevState,
-                                    information: null
-                                }
-                            });
-                        }
-                        else {
-                            updateAlert(false); // Remove alerts if any exist
-                            updateEmptyAlert(false);
-
-                            updateNFTData((prevState) => {
-                                return {
-                                    ...prevState,
-                                    information: response.data.information
-                                }
-                            });
-                        }
+                        updateAlert(false); // Remove alerts if any exist
+                        updateEmptyAlert(false);
+                        updateERC721TransferData(response.data.information);
                     }
-                })
-
-                axios.post(NODE_SERVER_URL + NFT_TRANSFERS_ENDPOINT, options)
-                .then(response => {
-                    if (response.status !== 200){
-                        updateERC721Transfers((prevState) => {
-                            return {
-                                ...prevState,
-                                information: null
-                            }
-                        });
-                    }
-                    else {
-                        if (response.status === 200 && response.data.information.result.length === 0){ // If empty, keep state to null
-                            updateERC721Transfers((prevState) => {
-                                return {
-                                    ...prevState,
-                                    information: null
-                                }
-                            });
-                        }
-                        else {
-                            updateERC721Transfers((prevState) => {
-                                return {
-                                    ...prevState,
-                                    information: response.data.information.result // If data exists, add it to state
-                                }
-                            });
-                        }
-                    }
-                });
-            }
+                }
+            });
         }
         else {
             updateAlert(true); // Set Alert
             updateEmptyAlert(false); // Remove redundant alerts, and empty data
-            clearHandler();
         }
     }
     
@@ -174,14 +135,14 @@ const ERC721TokenHoldingsPage: FC = () => {
                         <main style={{ marginTop: '-3rem' }} className="p-3" role="main">
                                 <div>
                                     {
-                                        nftData.information === null ? null :
+                                        erc721HoldingData === undefined ? null :
                                             <>
                                                 <main style={{ marginTop: '5rem' }} role="main">
                                                     <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                                         <h3 className="h3">ERC-721 Token Holdings</h3>
                                                     </div>
                                                 </main>
-                                                <ERC721HoldingsInfoTable data={ nftData.information } />
+                                                <ERC721HoldingsInfoTable data={ erc721HoldingData } />
                                             </>
                                     }
                                 </div>
@@ -189,14 +150,14 @@ const ERC721TokenHoldingsPage: FC = () => {
                         <main style={{ marginTop: '2rem' }} className="p-3" role="main">
                             <div>
                                 {
-                                    ERC721Transfers.information === null ? null :
+                                    erc721TransferData === undefined ? null :
                                         <>
                                             <main style={{ marginTop: '5rem' }} role="main">
                                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                                     <h3 className="h3">Sample ERC-721 Transfers</h3>
                                                 </div>
                                             </main>
-                                            <ERC721TransfersInfoTable address={ address.current!.value } data={ ERC721Transfers.information } />
+                                            <ERC721TransfersInfoTable address={ address.current!.value } data={ erc721TransferData } />
                                         </>
                                 }
                             </div>
