@@ -18,7 +18,7 @@ const ERC20CollectionInformationPage: FC = () => {
     const navigate = useNavigate();
 
     // Node Server endpoints
-    const NODE_SERVER_URL = 'http://localhost:5001';
+    const NODE_SERVER_URL = 'https://18.221.208.44.nip.io';
     const NODE_SERVER_TOKEN_PRICE_ENDPOINT = '/matic-erc20-collection-information';
     const NODE_SERVER_TOKEN_TRANSFER_ENDPOINT = '/matic-erc20-collection-transfers';
 

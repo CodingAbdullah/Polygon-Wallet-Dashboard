@@ -28,7 +28,7 @@ const WalletInformationPage: FC = () => {
     const navigate = useNavigate();
 
     // Endpoints and URLs
-    const NODE_SERVER_URL = 'http://localhost:5001';
+    const NODE_SERVER_URL = 'https://18.221.208.44.nip.io';
 
     const MATIC_ADDRESS_DETAILS_ENDPOINT = "/get-matic-wallet-information";
     const MATIC_ADDRESS_TRANSACTIONS_ENDPOINT = '/get-matic-wallet-transactions';

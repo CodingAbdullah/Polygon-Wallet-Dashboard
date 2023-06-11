@@ -20,7 +20,7 @@ const ERC721TokenLookupsPage: FC = () => {
 
     const navigate = useNavigate();
 
-    const NODE_SERVER_URL = 'http://localhost:5001'; // API endpoints for ERC721 lookups
+    const NODE_SERVER_URL = 'https://18.221.208.44.nip.io'; // API endpoints for ERC721 lookups
     const LOOKUP_ENDPOINT = '/matic-erc721-lookup-information';
     const TRANSFER_LOOKUP_ENDPOINT = '/matic-erc721-transfers-lookup';
 

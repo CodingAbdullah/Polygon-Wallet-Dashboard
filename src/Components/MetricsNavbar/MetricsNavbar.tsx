@@ -19,8 +19,8 @@ const MetricsNavbar = () => {
                 }
             }
             try {
-                const priceInformation = await axios.get('http://localhost:5001/get-matic-price', options); // Retrieve Price information for Matic                 
-                const gasInformation = await axios.get('http://localhost:5001/get-matic-gas-price', options) // Retrive Gas information for Matic
+                const priceInformation = await axios.get('https://18.221.208.44.nip.io/get-matic-price', options); // Retrieve Price information for Matic                 
+                const gasInformation = await axios.get('https://18.221.208.44.nip.io/get-matic-gas-price', options) // Retrive Gas information for Matic
                 
                 updatePriceInformation(priceInformation.data.priceInformation["matic-network"]);
                 updateGasInformation(gasInformation.data);

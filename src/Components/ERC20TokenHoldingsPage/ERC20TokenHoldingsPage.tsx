@@ -46,7 +46,7 @@ const ERC20TokenHoldingsPage: FC = () => {
             updateAlert(false);
 
             // Make requests for ERC20 holdings and transfers
-            axios.post('http://localhost:5001/matic-erc20-holdings', options)
+            axios.post('https://18.221.208.44.nip.io/matic-erc20-holdings', options)
             .then(response => {
                 if (response.data.holdings.length === 0) {
                     updateEmptyAlert(true);
@@ -56,7 +56,7 @@ const ERC20TokenHoldingsPage: FC = () => {
                     updateAlert(false);
                     updateTokenHoldings(response.data);
 
-                    axios.post('http://localhost:5001/matic-erc20-transfers', options)
+                    axios.post('https://18.221.208.44.nip.io/matic-erc20-transfers', options)
                     .then(response => {
                         if (response.data.transfers.result.length === 0) {
                             updateEmptyAlert(true);

@@ -34,7 +34,7 @@ const TransactionsResultsPage: FC = () => {
             }
 
             // Update transactions state with txns request
-            axios.post('http://localhost:5001/get-matic-wallet-transaction-information', options)
+            axios.post('https://18.221.208.44.nip.io/get-matic-wallet-transaction-information', options)
             .then(response => {
                 console.log(response.data);
                 if (response.data.information.result.length === 0) {
@@ -51,7 +51,7 @@ const TransactionsResultsPage: FC = () => {
             });
 
             // Update internal transactions state with internal txns request
-            axios.post('http://localhost:5001/get-matic-wallet-internal-transactions-information', options)
+            axios.post('https://18.221.208.44.nip.io/get-matic-wallet-internal-transactions-information', options)
             .then(response => {
                 if (response.data.information.result.length === 0) {
                     updateEmptyAlert(true);
@@ -66,7 +66,7 @@ const TransactionsResultsPage: FC = () => {
             });
 
             // Get MATIC price along with wallet balance information
-            axios.post('http://localhost:5001/get-matic-wallet-transactions-balance-information', options)
+            axios.post('https://18.221.208.44.nip.io/get-matic-wallet-transactions-balance-information', options)
             .then(response => {
                 updateWalletBalanceInformationState(response.data);  
             })

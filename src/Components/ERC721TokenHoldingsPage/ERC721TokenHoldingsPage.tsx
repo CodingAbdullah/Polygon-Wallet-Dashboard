@@ -15,7 +15,7 @@ const ERC721TokenHoldingsPage: FC = () => {
     const [erc721HoldingData, updateERC721HoldingData] = useState<ERC721HoldingType>();
     const [erc721TransferData, updateERC721TransferData] = useState<ERC721TransferType>();
 
-    const NODE_SERVER_URL = "http://localhost:5001"; // Modifying end points for the backend server
+    const NODE_SERVER_URL = "https://18.221.208.44.nip.io"; // Modifying end points for the backend server
     const NFT_ENDPOINT = '/matic-erc721-holdings';
     const NFT_TRANSFERS_ENDPOINT = '/matic-erc721-transfers';
 
