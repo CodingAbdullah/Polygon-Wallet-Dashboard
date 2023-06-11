@@ -154,7 +154,7 @@ const ERC721TokenHoldingsPage: FC = () => {
                                         <>
                                             <main style={{ marginTop: '5rem' }} role="main">
                                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                                                    <h3 className="h3">Sample ERC-721 Transfers</h3>
+                                                    <h3 className="h3">ERC-721 Transfers</h3>
                                                 </div>
                                             </main>
                                             <ERC721TransfersInfoTable address={ address.current!.value } data={ erc721TransferData } />

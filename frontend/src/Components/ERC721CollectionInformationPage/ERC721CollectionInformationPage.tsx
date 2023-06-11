@@ -38,6 +38,7 @@ const ERC20CollectionInformationPage: FC = () => {
 
     const formHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        clearHandler();
 
         // Set options for fetch and flight responses
         const options = {
@@ -108,7 +109,7 @@ const ERC20CollectionInformationPage: FC = () => {
                 </div>
             </main>
                 { 
-                    collectionInformation !== undefined ? 
+                    collectionInformation !== undefined && !alert ? 
                         <>
                             <main style={{ marginTop: '3rem', overflowX: 'scroll', paddingBottom: '2rem' }} role="main">
                                 <h4>NFT Collection Name: <b>{ collectionInformation!.result.name }</b></h4>
@@ -118,7 +119,7 @@ const ERC20CollectionInformationPage: FC = () => {
                         </> : null
                 }
                 {
-                    collectionInformation !== undefined ?
+                    collectionInformation !== undefined && !alert ?
                         <>
                             <main style={{ marginTop: '3rem' }} className="p-3" role="main">
                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -129,7 +130,7 @@ const ERC20CollectionInformationPage: FC = () => {
                         </> : null
                 }
                 {
-                    collectionAttributes !== undefined ?
+                    collectionAttributes !== undefined && !alert ?
                         <>
                             <main style={{ marginTop: '3rem' }} className="p-3" role="main">
                                 <>
@@ -142,7 +143,7 @@ const ERC20CollectionInformationPage: FC = () => {
                         </> : null
                 }
                 {
-                    collectionTransfers !== undefined ?
+                    collectionTransfers !== undefined && !alert ?
                         <>
                             <main style={{ marginTop: '3rem' }} className="p-3" role="main">
                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -153,7 +154,7 @@ const ERC20CollectionInformationPage: FC = () => {
                         </> : null
                 }
                 {
-                    collectionSales !== undefined ?
+                    collectionSales !== undefined && !alert ?
                         <>
                             <main style={{ marginTop: '3rem' }} className="p-3" role="main">
                                 <div style={{ marginTop: '1rem' }} className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
