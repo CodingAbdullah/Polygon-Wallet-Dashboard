@@ -10,13 +10,14 @@ import HomePage from './Components/HomePage/HomePage';
 import Footer from './Components/Footer/footer';
 import GasPricePage from './Components/GasPricePage/GasPricePage';
 import MetricsNavbar from './Components/MetricsNavbar/MetricsNavbar';
-import Navbar from './Components/Navbar/Navbar';
+import Navbar from './Components/Navbar/navbar';
 import ERC20TokenPricesPage from './Components/ERC20TokenPricesPage/ERC20TokenPricesPage';
 import WalletInformationPage from './Components/WalletInformationPage/WalletInformationPage';
 import ERC20TokenHoldingsPage from './Components/ERC20TokenHoldingsPage/ERC20TokenHoldingsPage';
 import ERC721TokenHoldingsPage from './Components/ERC721TokenHoldingsPage/ERC721TokenHoldingsPage';
 import MaticPriceLookupPage from './Components/MaticPriceLookupPage/MaticPriceLookupPage';
 import TransactionsResultsPage from './Components/TransactionsResultsPage/TransactionResultsPage';
+import Page404 from './Components/Page404/Page404';
 
 const App: FC = () => {
   return (
@@ -38,6 +39,7 @@ const App: FC = () => {
           <Route path="/matic-price-lookup" element={<MaticPriceLookupPage />}></Route>
           <Route path="/wallet-analytics-result" element={<TransactionsResultsPage />}></Route>
           <Route path="/wallet-information-page" element={<WalletInformationPage />}></Route>
+          <Route path="*" element={<Page404 />}></Route>
           <Route path="/" element={<HomePage />}></Route>
         </Routes>
       </Router>
