@@ -10,7 +10,7 @@ import HomePage from './Components/HomePage/HomePage';
 import Footer from './Components/Footer/footer';
 import GasPricePage from './Components/GasPricePage/GasPricePage';
 import MetricsNavbar from './Components/MetricsNavbar/MetricsNavbar';
-import Navbar from './Components/Navbar/navbar';
+import Navbar from './Components/Navbar/Navbar';
 import ERC20TokenPricesPage from './Components/ERC20TokenPricesPage/ERC20TokenPricesPage';
 import WalletInformationPage from './Components/WalletInformationPage/WalletInformationPage';
 import ERC20TokenHoldingsPage from './Components/ERC20TokenHoldingsPage/ERC20TokenHoldingsPage';
