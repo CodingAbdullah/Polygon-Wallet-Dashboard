@@ -14,7 +14,7 @@ const AboutPage: React.FC = () => {
                     </div>
                     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap pt-3 pb-2 mb-3 border-bottom">
                             <p className="p-1">
-                                The Arbitrum Wallet Dashboard is a lightweight implementation of this 
+                                The Polygon Wallet Dashboard is a lightweight implementation of this 
                                 <a href="https://ethwdashboard.xyz" style={{ color: 'black', fontWeight: 'bold' }} target="_blank" rel="noreferrer"> Dashboard</a>. 
                                 Features available here include token lookups, wallet analysis, and gas prices.
                             </p>
