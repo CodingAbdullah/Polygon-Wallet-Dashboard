@@ -14,7 +14,7 @@ export async function GET() {
 
     // Conditionally return data based on request response
     try {
-        const response = await fetch('https://api.arbiscan.io/api?module=proxy&action=eth_gasPrice&apikey=' + process.env.ARBISCAN_API_KEY, options);
+        const response = await fetch("https://api.polygonscan.com/api?module=proxy&action=eth_gasPrice&apikey=" + process.env.MATIC_API_KEY, options);
         const data = await response.json();
 
         // Return Arbitrum Gas details

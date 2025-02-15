@@ -9,7 +9,7 @@ export async function POST(request: Request){
     const { interval } = body;
 
     // Request coin prices
-    let COIN_PRICE_ENDPOINT = '/coins/arbitrum';
+    let COIN_PRICE_ENDPOINT = '/coins/matic-network';
 
     if (interval === '24') {
         COIN_PRICE_ENDPOINT += '/market_chart?vs_currency=usd&days=2';

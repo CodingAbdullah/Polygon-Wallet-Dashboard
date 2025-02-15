@@ -16,14 +16,14 @@ export async function GET() {
     
     // Run the requests and conditionally return data based on response
     try {
-        const arbPriceResponse = await fetch('https://pro-api.coingecko.com/api/v3/simple/price?ids=arbitrum&vs_currencies=usd&include_24hr_change=true', arbPriceOptions);
+        const polygonPriceResponse = await fetch('https://pro-api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd&include_24hr_change=true', arbPriceOptions);
 
         // Formulate Arbitrum Price and Gas data
-        const arbPriceData = await arbPriceResponse.json();
+        const polygonPriceData = await polygonPriceResponse.json();
 
         // Return token price and gas information
         return NextResponse.json({
-            tokenPrice: arbPriceData
+            tokenPrice: polygonPriceData
         });
     }
     catch (err) {
