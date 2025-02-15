@@ -1,7 +1,7 @@
 # Make sure you have Node and Git installed on your machine
 # This script is for POWERSHELL (Windows only), you will need to run this on a Windows machine
 # To run this script, run the command in the Windows command prompt below with the name of your laptop as part of the command parameter
-# ---> .\arbitrum_dashboard_setup.ps1 <laptop name>
+# ---> .\polygon_dashboard_setup.ps1 <laptop name>
 
 # Access the laptop name passed in as an argument
 $NAME = $args[0]
@@ -9,9 +9,9 @@ Set-Location "C:\Users\$NAME\Desktop"  # Navigating to the Desktop directory of 
 
 # Build as you like, change the name of the folder to that which you desire
 Write-Host 'Setting up local development directory on Desktop...'
-New-Item -ItemType Directory -Name 'ARB_DASHBOARD'
+New-Item -ItemType Directory -Name 'MATIC_DASHBOARD'
 
-Set-Location 'ARB_DASHBOARD'
+Set-Location 'MATIC_DASHBOARD'
 
 # Initialize git on the empty repo
 git init

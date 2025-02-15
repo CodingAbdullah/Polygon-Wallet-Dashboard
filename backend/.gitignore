@@ -1,3 +1,0 @@
-# Adding .env and node_modules here to prevent commit
-node_modules
-.env
