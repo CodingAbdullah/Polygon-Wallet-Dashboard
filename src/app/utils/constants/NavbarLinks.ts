@@ -3,15 +3,15 @@ import NavbarLinkObject from "@/app/utils/types/NavbarObject";
 // Constants for working with Navbar Links
 export const NavbarLinks: NavbarLinkObject[] = [
     {
-        name: 'Arbitrum Gas Info',
+        name: 'Polygon Gas Info',
         dropdown: [{
             name: 'Gas Information', href: '/arbitrum-gas-tracker'
         }]
     },
     {
-        name: 'Arbitrum Price',
+        name: 'Polygon Price',
         dropdown: [
-            { name: 'Price Action', href: '/arbitrum-price' }
+            { name: 'Price Action', href: '/polygon-price' }
         ]
     },
     {
