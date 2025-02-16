@@ -31,7 +31,7 @@ export default function ERC721HoldingsInfoTable(props : { data: ERC721HoldingsTy
                                 <TableCell className="font-medium text-gray-100">{ record.token_id }</TableCell>
                                 <TableCell className="font-medium text-gray-100">{ record.symbol }</TableCell>
                                 <TableCell>
-                                    <Link href={ "https://opensea.io/assets/arbitrum/" + record.token_address + "/" + record.token_id } target="_blank" rel="noreferrer"><u>ERC721 Link</u></Link>
+                                    <Link href={ "https://opensea.io/assets/matic/" + record.token_address + "/" + record.token_id } target="_blank" rel="noreferrer"><u>ERC721 Link</u></Link>
                                 </TableCell>
                             </TableRow>
                         )

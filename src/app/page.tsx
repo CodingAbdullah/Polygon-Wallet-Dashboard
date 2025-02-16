@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 // Custom Metadata
 export const metadata: Metadata = {
   title: "Home Page",
-  description: "Home Page for the Arbitrum Dashboard web application"
+  description: "Home Page for the Polygon Dashboard web application"
 }
 
 // Home Page Custom Component
@@ -22,7 +22,7 @@ export default function HomePage() {
       </h1>
       <div className="max-w-3xl mx-auto">
         <p className="text-lg mb-8">
-          Deep dive into wallet information, price action, and much more related to the Arbitrum blockchain. <br />
+          Deep dive into wallet information, price action, and much more related to the Polygon blockchain. <br />
         </p>
         <HomePageWalletForm />
         <div className="mt-8 text-center">

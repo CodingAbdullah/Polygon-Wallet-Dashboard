@@ -5,7 +5,7 @@ export const NavbarLinks: NavbarLinkObject[] = [
     {
         name: 'Polygon Gas Info',
         dropdown: [{
-            name: 'Gas Information', href: '/arbitrum-gas-tracker'
+            name: 'Gas Information', href: '/polygon-gas-tracker'
         }]
     },
     {

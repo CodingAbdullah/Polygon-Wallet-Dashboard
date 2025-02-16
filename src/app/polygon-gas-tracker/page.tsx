@@ -1,25 +1,25 @@
-import ArbitrumGasInfoTable from "../components/ArbitrumGasInfoTable";
+import PolygonGasInfoTable from "../components/PolygonGasInfoTable";
 import type { Metadata } from "next"
 
 // Custom Metadata
 export const metadata: Metadata = {
-  title: "Arbitrum Gas",
-  description: "Lookup metrics related to Arbitrum gas"
+  title: "Polygon Gas",
+  description: "Lookup metrics related to Polygon gas"
 }
 
-// Arbitrum Gas Page Custom Component
-export default function ArbitrumGasPage() {
+// Polygon Gas Page Custom Component
+export default function PolygonGasPage() {
     return (
         <div className="bg-gray-800 text-gray-300 py-10 px-4 sm:px-6 lg:px-8 shadow-lg">
             <h1 className="text-5xl font-bold mb-6 text-center">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-100">
-                    Arbitrum Gas Information
+                    Polygon Gas Information
                 </span>
             </h1>
             <p className="text-lg mb-8 text-center">
-                <i>Lookup gas metrics related to Arbitrum</i> 
+                <i>Lookup gas metrics related to Polygon</i> 
             </p>
-            <ArbitrumGasInfoTable />
+            <PolygonGasInfoTable />
         </div>
     )
 }

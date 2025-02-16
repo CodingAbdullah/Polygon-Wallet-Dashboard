@@ -7,7 +7,7 @@ import ERC721TransfersType  from "../utils/types/ERC721TransfersType";
 export default function ERC721TransfersInfoTable(props : { address: string, data: ERC721TransfersType }) {
     const { address, data } = props;
 
-    // Render the Arbitrum ERC721 Transfers Info Table Component
+    // Render the Polygon ERC721 Transfers Info Table Component
     return (
         <div className="p-4 bg-gray-900 mt-10 shadow-lg">
             <h2 className="text-2xl font-bold mb-4 text-gray-100">Transfers</h2>

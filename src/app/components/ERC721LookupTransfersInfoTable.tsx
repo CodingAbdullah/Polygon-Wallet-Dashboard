@@ -12,7 +12,7 @@ export default function ERC721LookupTransfersInfoTable(props: { address: string,
 
     // Make API call upon loading the custom component
     const { data, error, isLoading } = 
-    useSWR<ERC721LookupTransfersType>(['/api/arbitrum-erc721-lookup-transfers-data', { walletAddress: address, id: tokenID }], ([url, body]: [string, PostFetcherArgs]) => PostFetcher(url, { arg: body }), { refreshInterval: 100000 });
+    useSWR<ERC721LookupTransfersType>(['/api/polygon-erc721-lookup-transfers-data', { walletAddress: address, id: tokenID }], ([url, body]: [string, PostFetcherArgs]) => PostFetcher(url, { arg: body }), { refreshInterval: 100000 });
     
     // Conditionally render the info table 
     if (isLoading) {

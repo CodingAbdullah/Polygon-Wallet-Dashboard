@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 
 // Custom Metadata
 export const metadata: Metadata = {
-  title: "Arbitrum ERC721 Lookups",
-  description: "Lookup Arbitrum ERC721 tokens"
+  title: "Polygon ERC721 Lookups",
+  description: "Lookup Polygon ERC721 tokens"
 }
 
 export default function ERC721LookupsPage() {

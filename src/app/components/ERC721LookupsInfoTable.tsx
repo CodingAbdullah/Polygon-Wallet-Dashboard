@@ -13,7 +13,7 @@ export default function ERC721LookupsInfoTable(props : { address: string, tokenI
 
     // Make API call upon loading the custom component
     const { data, error, isLoading } = 
-    useSWR<ERC721LookupType>(['/api/arbitrum-erc721-lookup-data', { walletAddress: address, id: tokenID }], ([url, body]: [string, PostFetcherArgs]) => PostFetcher(url, { arg: body }), { refreshInterval: 100000 });
+    useSWR<ERC721LookupType>(['/api/polygon-erc721-lookup-data', { walletAddress: address, id: tokenID }], ([url, body]: [string, PostFetcherArgs]) => PostFetcher(url, { arg: body }), { refreshInterval: 100000 });
     
     // Conditionally render data
     if (error) {
@@ -46,7 +46,7 @@ export default function ERC721LookupsInfoTable(props : { address: string, tokenI
                             <TableCell className="font-medium text-gray-100">{ data?.lookupInformation?.contract_type }</TableCell>
                             <TableCell className="font-medium text-gray-100">{ data?.lookupInformation?.amount }</TableCell>
                             <TableCell className="font-medium text-gray-100">
-                                <Link href={"https://opensea.io/assets/arbitrum/" + data?.lookupInformation?.token_address + "/" + data?.lookupInformation?.token_id } target="_blank" rel="noreferrer"><u>ERC721 Link</u></Link>
+                                <Link href={"https://opensea.io/assets/matic/" + data?.lookupInformation?.token_address + "/" + data?.lookupInformation?.token_id } target="_blank" rel="noreferrer"><u>ERC721 Link</u></Link>
                             </TableCell>
                         </TableRow>
                     </TableBody>

@@ -24,7 +24,6 @@ export default function WalletInternalTransactionsInfoTable( props : { address: 
     else {
         // Conditionally render data table
         // Render Account Internal Transactions Activity
-        console.log(internalTransactionsData);
         return (
             <div className="p-4 bg-gray-900 mt-10 shadow-lg">
                 <h2 className="text-2xl font-bold mb-4 text-gray-100">Internal Transactions History</h2>

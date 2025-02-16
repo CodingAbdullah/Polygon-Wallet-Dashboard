@@ -17,11 +17,11 @@ export async function POST(request: Request) {
 
     // Conditionally return data based on request response
     try {
-        const response = await fetch(MORALIS_URL + body.walletAddress + '/erc20/transfers?chain=arbitrum', options);
+        const response = await fetch(MORALIS_URL + body.walletAddress + '/erc20?chain=polygon', options);
         const data = await response.json();
 
         return NextResponse.json({ 
-            transfers: data
+            holdings: data
         });
 
     } 

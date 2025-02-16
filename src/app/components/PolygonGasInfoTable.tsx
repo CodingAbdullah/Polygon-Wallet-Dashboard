@@ -1,25 +1,25 @@
 'use client';
 
 import useSWR from "swr";
-import ArbitrumGasDataType from "../utils/types/ArbitrumGasDataType";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
 import GenericFetcher from "../utils/functions/GenericFetcher";
+import PolygonGasDataType from "../utils/types/PolygonGasDataType";
 
 // Custom Metrics Navbar Component
 // useSWR for efficient data fetching
-export default function ArbitrumGasInfoTable() {
+export default function PolygonGasInfoTable() {
     // Data fetching using the custom fetcher function and useSWR
-    const { data: gasData, error: gasError, isLoading: gasLoading } = useSWR<ArbitrumGasDataType>('/api/arbitrum-gas-data', GenericFetcher, { refreshInterval: 50000 });
+    const { data: gasData, error: gasError, isLoading: gasLoading } = useSWR<PolygonGasDataType>('/api/polygon-gas-data', GenericFetcher, { refreshInterval: 50000 });
 
-    // Conditionally render ENS Ownership data
+    // Conditionally render Polygon Gas data
     if (gasLoading) {
-        return <div>Loading Arbitrum Gas Data...</div>
+        return <div>Loading Polygon Gas Data...</div>
     }
     else if (gasError) {
         throw new Error();
     }
     else {
-        // Render the Arbitrum Gas Info Table Component
+        // Render the Polygon Gas Info Table Component
         return (
             <div className="p-4 bg-gray-900 mt-10 shadow-lg">
                 <Table>
