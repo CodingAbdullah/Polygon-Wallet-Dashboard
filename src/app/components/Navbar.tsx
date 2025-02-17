@@ -21,7 +21,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 hover:from-gray-100 hover:to-gray-300 transition-all duration-300">
-              Polygon DASHBOARD
+              POLYGON DASHBOARD
             </Link>
           </div>
           <div className="hidden md:block">

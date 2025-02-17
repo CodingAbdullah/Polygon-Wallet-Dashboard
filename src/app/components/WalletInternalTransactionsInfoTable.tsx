@@ -48,7 +48,7 @@ export default function WalletInternalTransactionsInfoTable( props : { address: 
                                     <TableCell className={String(transaction.to).toLowerCase() === address.toLowerCase() ? 'text-green-500' : 'text-red-500'}>
                                         {String(transaction.to).toLowerCase() === address.toLowerCase() ? 'IN' : 'OUT'}
                                     </TableCell>
-                                    <TableCell className="text-gray-300">{Number(transaction.value)/1e18 + ' ETH'}</TableCell>
+                                    <TableCell className="text-gray-300">{Number(transaction.value)/1e18 + ' POL'}</TableCell>
                                 </TableRow>
                             )
                         })

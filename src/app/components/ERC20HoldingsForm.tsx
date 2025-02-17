@@ -30,13 +30,13 @@ export default function ERC20HoldingsForm() {
             // FETCH API for ERC20 Holdings and Transfers data from a given wallet address
             setShowAlert(false);
 
-            const erc20HoldingsData = await fetch('/api/arbitrum-erc20-holdings-data', {
+            const erc20HoldingsData = await fetch('/api/polygon-erc20-holdings-data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ walletAddress: walletAddressRef.current!.value.trim() })
             });
 
-            const erc20TransfersData = await fetch('/api/arbitrum-erc20-transfers-data', {
+            const erc20TransfersData = await fetch('/api/polygon-erc20-transfers-data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ walletAddress: walletAddressRef.current!.value.trim() })

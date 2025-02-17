@@ -31,7 +31,7 @@ export default function MetricsNavbar() {
                             <span className="ping-animation w-2 h-2 bg-green-500 rounded-full"></span>
                             <span className="text-green-500 text-xs font-semibold">Live</span>
                         </div>                        
-                            <span>Polygon Price: <span>${ Number(polygon?.usd).toFixed(2) }</span></span>
+                            <span>Matic Price: <span>${ Number(polygon?.usd).toFixed(2) + ' POL'}</span></span>
                         <span>
                             24-Hr % Chg: 
                             <span className={ Number(polygon?.usd_24h_change) >= 0 ? 'text-green-500' : 'text-red-500' }>

@@ -23,7 +23,6 @@ export default function WalletBalanceInfoTable(props: { address: string }) {
     }
     else {
         const walletBalanceData: WalletBalanceInfoType = data;
-
         // Render Transaction Balance Info Table Component
         return (
             <div className="p-4 bg-gray-900 mt-10 shadow-lg">
@@ -31,16 +30,16 @@ export default function WalletBalanceInfoTable(props: { address: string }) {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="text-gray-300">ETH Price</TableHead>
-                            <TableHead className="text-gray-300">Token ETH Value</TableHead>
+                            <TableHead className="text-gray-300">Polygon Price</TableHead>
+                            <TableHead className="text-gray-300">Token Holding</TableHead>
                             <TableHead className="text-gray-300">Wallet Balance</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         <TableRow className="border-b border-gray-800">
-                            <TableCell className="text-gray-300">{"$" + Number(walletBalanceData?.ethPrice)}</TableCell>
-                            <TableCell className="text-gray-300">{Number(walletBalanceData?.balanceInformation.result)/1000000000000000000 + ' ETH'}</TableCell>
-                            <TableCell className="text-gray-300">{"$" + Number(walletBalanceData?.balanceInformation.result)/1000000000000000000 * Number(walletBalanceData?.ethPrice)}</TableCell>
+                            <TableCell className="text-gray-300">{"$" + Number(walletBalanceData?.polygonPrice)}</TableCell>
+                            <TableCell className="text-gray-300">{Number(walletBalanceData?.balanceInformation.result)/1000000000000000000 + ' POL'}</TableCell>
+                            <TableCell className="text-gray-300">{"$" + Number(walletBalanceData?.balanceInformation.result)/1000000000000000000 * Number(walletBalanceData?.polygonPrice)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
