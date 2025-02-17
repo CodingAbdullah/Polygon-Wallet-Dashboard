@@ -5,5 +5,5 @@ export default interface WalletBalanceInfoType {
         message: string,
         result: string
     },
-    ethPrice: number
+    polygonPrice: number
 }
