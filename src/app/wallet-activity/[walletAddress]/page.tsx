@@ -6,8 +6,8 @@ import type { Metadata } from "next"
 
 // Custom Metadata for SEO
 export const metadata: Metadata = {
-    title: "Ethereum Wallet Activity",
-    description: "Analyze Ethereum wallets and evaluate wallet activity"
+    title: "Polygon Wallet Activity",
+    description: "Analyze Polygon wallets and evaluate wallet activity"
 }
 
 // Custom Transactions Page Component

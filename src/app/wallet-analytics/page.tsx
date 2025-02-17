@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 
 // Custom Metadata for SEO
 export const metadata: Metadata = {
-    title: "Arbitrum Wallet Analytics",
-    description: "Analyze Arbitrum wallets and evaluate performance"
+    title: "Polygon Wallet Analytics",
+    description: "Analyze Polygon wallets and evaluate performance"
 }
 
 // Wallet Analytics Custom Component

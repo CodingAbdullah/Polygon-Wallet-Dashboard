@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 // Custom Metadata
 export const metadata: Metadata = {
   title: "About Page",
-  description: "About Page for the Arbitrum Dashboard web application"
+  description: "About Page for the Polygon Dashboard web application"
 }
 
 // Custom About Page Component
