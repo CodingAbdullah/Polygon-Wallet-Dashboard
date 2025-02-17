@@ -10,16 +10,16 @@ export async function POST(request: Request){
         headers: {
             'content-type': 'application/json',
             'accept' : 'application/json',
-            'X-API-KEY' : process.env.MORALIS_API_KEY_2
+            'X-API-KEY' : process.env.MORALIS_API_KEY
         } as HeadersInit
     }
 
     // Fetch data based on request parameters
     const response = await fetch('https://deep-index.moralis.io/api/v2.2/wallets/' + body.walletAddress + '/stats?chain=polygon', options) // Pass in address values for request
     
-    // Fetch data using the Arbitrum data endpoints
+    // Fetch data using the Polygon data endpoints
     if (!response.ok) 
-        return NextResponse.json({ error: 'Failed to fetch Arbitrum wallet statistics' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to fetch Polygon wallet statistics' }, { status: 500 });
     else {
         const data = await response.json();
         return NextResponse.json(data);

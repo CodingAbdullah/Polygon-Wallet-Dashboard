@@ -15,9 +15,9 @@ export async function POST(request: Request){
     }
 
     // Fetch data based on request parameters
-    const response = await fetch('https://deep-index.moralis.io/api/v2.2/wallets/' + body.walletAddress + '/chains?chains%5B0%5D=arbitrum', options) // Pass in address values for request
+    const response = await fetch('https://deep-index.moralis.io/api/v2.2/wallets/' + body.walletAddress + '/chains?chains%5B0%5D=polygon', options) // Pass in address values for request
     
-    // Fetch data using the Arbitrum data endpoints
+    // Fetch data using the Polygon data endpoints
     if (!response.ok) 
         return NextResponse.json({ error: 'Failed to fetch Arbitrum wallet statistics' }, { status: 500 });
     else {

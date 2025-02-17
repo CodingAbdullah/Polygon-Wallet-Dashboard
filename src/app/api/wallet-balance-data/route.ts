@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // Setting options for request parameters
-    const arbPriceOptions = {
+    const polygonPriceOptions = {
         method: 'GET',
         headers: {
             'content-type': 'application/json'
@@ -23,18 +23,18 @@ export async function POST(request: Request) {
     }
 
     try {
-        // Make FETCH request to gather data related to Arbitrum, Ethereum
-        const arbPriceResponse = await fetch('https://api.arbiscan.io/api?module=account&action=balance&address=' + body.walletAddress + "&tag=latest&apikey=" + process.env.ARBISCAN_API_KEY, arbPriceOptions);
-        const ethPriceResponse = await fetch('https://pro-api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd', ethPriceOptions);
+        // Make FETCH request to gather data related to Polygon, Ethereum
+        const polygonWalletResponse = await fetch("https://api.polygonscan.com/api?module=account&action=balance&address=" + body.walletAddress + "&apikey=" + process.env.MATIC_API_KEY, polygonPriceOptions);
+        const polygonPriceResponse = await fetch('https://pro-api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd', ethPriceOptions);
         
-        // Conver to JSON data related to Arbitrum and Ethereum
-        const arbData = await arbPriceResponse.json();
-        const ethData = await ethPriceResponse.json();
+        // Conver to JSON data related to Polygon and Ethereum
+        const polygonWalletData = await polygonWalletResponse.json();
+        const polygonData = await polygonPriceResponse.json();
 
         // Return the dataset
         return NextResponse.json({
-            balanceInformation: arbData,
-            ethPrice: ethData.ethereum.usd
+            balanceInformation: polygonWalletData,
+            polygonPrice: polygonData['matic-network'].usd
         });
     }
     catch (err) {

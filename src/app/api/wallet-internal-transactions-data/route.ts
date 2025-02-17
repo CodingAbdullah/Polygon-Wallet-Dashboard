@@ -14,8 +14,8 @@ export async function POST(request: Request) {
 
     // Conditionally return data based on request response
     try {
-        const response = await fetch('https://api.arbiscan.io/api?module=account&action=txlistinternal&address=' + body.walletAddress + 
-        '&startblock=0&endblock=99999999&page=1&sort=desc&apikey=' + process.env.ARBISCAN_API_KEY, options);
+        const response = await fetch("https://api.polygonscan.com/api?module=account&action=txlistinternal&address=" + body.walletAddress + 
+        '&startblock=0&endblock=99999999&page=1&sort=desc&apikey=' + process.env.MATIC_API_KEY, options);
         
         const data = await response.json();
 
