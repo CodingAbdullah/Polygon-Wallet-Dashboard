@@ -1,4 +1,0 @@
-# These files do not need to be utilized when building the back-end image for the server
-Dockerfile
-.git
-node_modules
